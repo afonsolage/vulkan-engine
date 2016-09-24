@@ -15,8 +15,7 @@ Context::Context(std::shared_ptr<GameEngine>& engine)
 
 Context::~Context()
 {
-	if (DestroyDebugReportCallbackEXT != VK_NULL_HANDLE)
-		DestroyDebugReportCallbackEXT((VkInstance)m_instance, m_callback, nullptr);
+	destroy_command_pool();
 
 	m_device.destroySemaphore(m_image_available_semaphore);
 	m_device.destroySemaphore(m_render_finished_semaphore);
@@ -24,9 +23,13 @@ Context::~Context()
 	m_device.destroy();
 
 	m_instance.destroySurfaceKHR(m_surface);
+
+	if (DestroyDebugReportCallbackEXT != VK_NULL_HANDLE)
+		DestroyDebugReportCallbackEXT((VkInstance)m_instance, m_callback, nullptr);
+
 	m_instance.destroy();
 
-	printf("Context destroyed.\n");
+	LOG_DEBUG("Context destroyed.");
 }
 
 void Context::init()
@@ -37,6 +40,7 @@ void Context::init()
 	find_physical_device();
 	create_logical_device();
 	create_semaphores();
+	create_command_pool();
 }
 
 void Context::create_instance()
@@ -138,6 +142,8 @@ void Context::find_physical_device()
 		throw std::runtime_error("Failed to find suitable physical device!");
 	}
 
+	LOG_TRACE("A physical device with rank %d is begin used.", ranked.first);
+
 	m_physical_device = ranked.second;
 	m_queue_family_indices = VKUtils::get_family_indices(m_physical_device, m_surface);
 }
@@ -184,6 +190,54 @@ void Context::create_semaphores()
 	m_render_finished_semaphore = m_device.createSemaphore(vk::SemaphoreCreateInfo());
 }
 
+void Context::create_command_pool()
+{
+	vk::CommandPoolCreateInfo create_info;
+	create_info.queueFamilyIndex = m_queue_family_indices.graphics;
+
+	m_graphics_command_pool = m_device.createCommandPool(create_info);
+
+	if (m_queue_family_indices.presentation == m_queue_family_indices.graphics)
+	{
+		m_transfer_queue_command = m_graphics_command_pool;
+	}
+	else
+	{
+		create_info.queueFamilyIndex = m_queue_family_indices.presentation;
+		m_present_command_pool = m_device.createCommandPool(create_info);
+	}
+
+	if (m_queue_family_indices.transfer == m_queue_family_indices.graphics)
+	{
+		m_transfer_queue_command = m_graphics_command_pool;
+	}
+	else if (m_queue_family_indices.transfer == m_queue_family_indices.presentation)
+	{
+		m_transfer_queue_command = m_present_command_pool;
+	}
+	else
+	{
+		create_info.queueFamilyIndex = m_queue_family_indices.transfer;
+		m_transfer_queue_command = m_device.createCommandPool(create_info);
+	}
+}
+
+void Context::destroy_command_pool()
+{
+	m_device.destroyCommandPool(m_graphics_command_pool);
+
+	if (m_queue_family_indices.presentation != m_queue_family_indices.graphics)
+	{
+		m_device.destroyCommandPool(m_present_command_pool);
+	}
+
+	if (m_queue_family_indices.transfer != m_queue_family_indices.graphics
+		&& m_queue_family_indices.transfer != m_queue_family_indices.presentation)
+	{
+		m_device.destroyCommandPool(m_transfer_queue_command);
+	}
+}
+
 int Context::calc_physical_device_rank(const vk::PhysicalDevice& physical_device) const
 {
 	//Check queue family indices.
@@ -214,6 +268,9 @@ int Context::calc_physical_device_rank(const vk::PhysicalDevice& physical_device
 
 	//We should rank better physical devices that have the graphics and presentation on same queue family index.
 	rank = (indices.graphics == indices.presentation) ? 10 : 0;
+
+	//We should rank better physical devices that have the graphics and transfer operations on different families.
+	rank = (indices.transfer != indices.graphics) ? 10 : 0;
 
 	bool mailbox_support = std::any_of(begin(surface_support.present_modes), end(surface_support.present_modes), [](const auto& present_mode)
 	{
@@ -278,26 +335,19 @@ vk::Format Context::find_supported_format(const std::vector<vk::Format>& candida
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Context::debugCallback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objType, uint64_t obj, size_t location, int32_t code, const char * layerPrefix, const char * msg, void * userData)
 {
-	const char* type;
-
 	if (flags && VK_DEBUG_REPORT_ERROR_BIT_EXT)
 	{
-		type = "ERROR";
+		LOG_ERROR("[%d] %s", code, msg);
 	}
 	else if (flags && VK_DEBUG_REPORT_WARNING_BIT_EXT)
 	{
-		type = "WARNING";
+		LOG_WARN("[%d] %s", code, msg);
 	}
 	else if (flags && VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT)
 	{
-		type = "PERF. WARNING";
-	}
-	else
-	{
-		return false;
+		LOG_WARN("[PERFORMANCE][%d] %s", code, msg);
 	}
 
-	printf("[%s][%d] %s\n", type, code, msg);
 
 	return false;
 }

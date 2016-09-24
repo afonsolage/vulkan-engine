@@ -3,9 +3,11 @@
 
 int main()
 {
+	Logging::init();
+
 	WorldOfCubes app;
 
-	printf("Starting application...\n");
+	LOG_INFO("Starting application...");
 
 	app.init();
 	app.run();

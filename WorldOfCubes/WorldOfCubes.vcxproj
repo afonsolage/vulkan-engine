@@ -142,12 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraObject.h" />
     <ClInclude Include="CommonUtils.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GraphicsPipeline.h" />
     <ClInclude Include="GraphicsSystem.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -157,12 +160,14 @@
     <ClInclude Include="WorldOfCubes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraObject.cpp" />
     <ClCompile Include="CommonUtils.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
+    <ClCompile Include="Logging.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -26,6 +26,10 @@ public:
 	vk::Queue m_present_queue;
 	vk::Queue m_graphics_queue;
 
+	vk::CommandPool m_graphics_command_pool;
+	vk::CommandPool m_present_command_pool;
+	vk::CommandPool m_transfer_queue_command;
+
 	QueueFamilyIndices m_queue_family_indices;
 
 	static const vk::Format m_presentation_format = vk::Format::eR8G8B8A8Unorm;
@@ -38,6 +42,9 @@ private:
 	void find_physical_device();
 	void create_logical_device();
 	void create_semaphores();
+	void create_command_pool();
+
+	void destroy_command_pool();
 
 	int calc_physical_device_rank(const vk::PhysicalDevice& physical_device) const;
 
@@ -49,5 +56,6 @@ private:
 	std::weak_ptr<GameEngine> m_engine;
 
 	VkDebugReportCallbackEXT m_callback;
+
 };
 

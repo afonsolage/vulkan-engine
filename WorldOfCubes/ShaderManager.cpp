@@ -23,7 +23,7 @@ ShaderManager::~ShaderManager()
 		}
 	}
 
-	printf("Shader manager destroyed.\n");
+	LOG_DEBUG("Shader manager destroyed.");
 }
 
 void ShaderManager::init()
@@ -45,7 +45,7 @@ void ShaderManager::init()
 
 		if (!shader_opt.is_initialized())
 		{
-			printf("[WARNING] Shader type %d not found on shader info file!\n", i);
+			LOG_WARN("Shader type %d not found on shader info file!", i);
 			continue;
 		}
 
@@ -55,7 +55,7 @@ void ShaderManager::init()
 
 		if (!name_opt.is_initialized())
 		{
-			printf("[ERROR] Info name not found on shader %d.\n", i);
+			LOG_ERROR("Info name not found on shader %d.", i);
 			continue;
 		}
 
@@ -63,7 +63,7 @@ void ShaderManager::init()
 
 		if (!type_opt.is_initialized())
 		{
-			printf("[ERROR] Info type not found on shader %d.\n", i);
+			LOG_ERROR("Info type not found on shader %d.", i);
 			continue;
 		}
 
@@ -71,7 +71,7 @@ void ShaderManager::init()
 
 		if (type_it == m_shader_type_map.end())
 		{
-			printf("[ERROR] Info type invalid on shader %d.\n", i);
+			LOG_ERROR("Info type invalid on shader %d.", i);
 			continue;
 		}
 
@@ -79,7 +79,7 @@ void ShaderManager::init()
 
 		if (!entry_opt.is_initialized())
 		{
-			printf("[ERROR] Info entry not found on shader %d.\n", i);
+			LOG_ERROR("Info entry not found on shader %d.", i);
 			continue;
 		}
 
@@ -90,7 +90,7 @@ void ShaderManager::init()
 		);
 	}
 
-	printf("Shader info load completed. %d shaders was loaded.\n", m_shader_module_map.size());
+	LOG_INFO("Shader info load completed. %d shaders was loaded.", m_shader_module_map.size());
 }
 
 std::vector<vk::PipelineShaderStageCreateInfo> ShaderManager::get_shader_create_info(std::vector<ShaderManager::Shader> shaders)

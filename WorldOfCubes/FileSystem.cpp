@@ -9,7 +9,7 @@ FileSystem::FileSystem()
 
 FileSystem::~FileSystem()
 {
-	printf("File system destroyed.\n");
+	LOG_DEBUG("File system destroyed.");
 }
 
 std::vector<std::string> FileSystem::list_files_on_folder(const std::string& path, const std::string& extension_filter) const

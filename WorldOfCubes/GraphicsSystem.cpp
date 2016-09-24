@@ -14,8 +14,7 @@ GraphicsSystem::GraphicsSystem(std::shared_ptr<GameEngine>& engine)
 
 GraphicsSystem::~GraphicsSystem()
 {
-
-	printf("Graphics system destroyed.\n");
+	LOG_DEBUG("Graphics system destroyed.");
 }
 
 void GraphicsSystem::init()

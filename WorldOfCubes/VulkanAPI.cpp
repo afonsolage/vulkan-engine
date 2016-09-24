@@ -15,13 +15,28 @@ QueueFamilyIndices VKUtils::get_family_indices(const vk::PhysicalDevice& physica
 			if (queue_family.queueFlags & vk::QueueFlagBits::eGraphics)
 			{
 				indices.graphics = i;
+
+				//In order to be a valid presentation queue, this one also must have graphics capabilities.
+				if (physical_device.getSurfaceSupportKHR(i, surface))
+				{
+					//it's better to have presentation and graphics on same queue family.
+					if (indices.presentation == std::numeric_limits<uint32_t>::max()
+						|| (indices.presentation != indices.graphics && i == indices.graphics))
+					{
+						indices.presentation = i;
+					}
+				}
 			}
 
-			if (physical_device.getSurfaceSupportKHR(i, surface))
+			if (queue_family.queueFlags & vk::QueueFlagBits::eTransfer)
 			{
-				//it's better to have presentation and graphics on same queue family.
-				if (indices.presentation == UINT32_MAX || (indices.presentation != indices.graphics && i == indices.graphics))
-					indices.presentation = i;
+				//it's better to have a queue family that only does transfer, because it have some improvments.
+				if (indices.transfer == std::numeric_limits<uint32_t>::max()
+					|| indices.transfer == indices.graphics
+					|| queue_family.queueFlags == vk::QueueFlagBits::eTransfer)
+				{
+					indices.transfer = i;
+				}
 			}
 		}
 

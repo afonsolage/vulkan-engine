@@ -7,20 +7,23 @@ struct QueueFamilyIndices
 {
 	uint32_t graphics = UINT32_MAX;
 	uint32_t presentation = UINT32_MAX;
+	uint32_t transfer = UINT32_MAX;
 
 	operator bool() const
 	{
-		return graphics != UINT32_MAX && presentation != UINT32_MAX;
+		return graphics != std::numeric_limits<uint32_t>::max()
+			&& presentation != std::numeric_limits<uint32_t>::max()
+			&& transfer != std::numeric_limits<uint32_t>::max();
 	}
 
 	std::vector<uint32_t> get_indices()
 	{
-		return{ graphics, presentation };
+		return{ graphics, presentation, transfer };
 	}
 
 	std::set<uint32_t> get_indices_unique()
 	{
-		return{ graphics, presentation };
+		return{ graphics, presentation, transfer };
 	}
 };
 

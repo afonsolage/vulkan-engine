@@ -11,7 +11,7 @@ WindowSystem::WindowSystem()
 
 WindowSystem::~WindowSystem()
 {
-	printf("Window system destroyed.\n");
+	LOG_DEBUG("Window system destroyed.");
 }
 
 std::vector<const char*> WindowSystem::get_required_extensions()

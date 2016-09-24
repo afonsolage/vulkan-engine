@@ -69,6 +69,15 @@
     <ClInclude Include="MeshObject.h">
       <Filter>Engine\Graphics\Vulkan\Object</Filter>
     </ClInclude>
+    <ClInclude Include="CameraObject.h">
+      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,9 +101,6 @@
     <ClCompile Include="Swapchain.cpp">
       <Filter>Engine\Graphics\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="CommonUtils.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -112,6 +118,15 @@
     </ClCompile>
     <ClCompile Include="MeshObject.cpp">
       <Filter>Engine\Graphics\Vulkan\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraObject.cpp">
+      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

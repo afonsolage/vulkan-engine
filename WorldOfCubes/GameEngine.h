@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "MathUtils.h"
 
 //Forwarding declarations
 class WindowSystem;

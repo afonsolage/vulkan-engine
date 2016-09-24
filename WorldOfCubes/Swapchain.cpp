@@ -21,7 +21,7 @@ Swapchain::~Swapchain()
 		context->m_device.destroySwapchainKHR(m_swapchain);
 	}
 
-	printf("Swapchain destroyed.\n");
+	LOG_DEBUG("Swapchain destroyed.");
 }
 
 void Swapchain::init()

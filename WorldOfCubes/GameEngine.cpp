@@ -16,7 +16,7 @@ GameEngine::GameEngine(std::string app_name, uint32_t app_version)
 
 GameEngine::~GameEngine()
 {
-	printf("Game engine destroyed.\n");
+	LOG_DEBUG("Game engine destroyed.");
 }
 
 void GameEngine::init()

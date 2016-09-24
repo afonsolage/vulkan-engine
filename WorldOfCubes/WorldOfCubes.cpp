@@ -11,7 +11,7 @@ WorldOfCubes::WorldOfCubes()
 WorldOfCubes::~WorldOfCubes()
 {
 
-	printf("Application destroyed.\n");
+	LOG_DEBUG("Application destroyed.");
 }
 
 void WorldOfCubes::init()
@@ -20,17 +20,17 @@ void WorldOfCubes::init()
 	{
 		m_engine = std::make_shared<GameEngine>(m_app_name, m_app_version);
 		m_engine->init();
-		printf("Game Engine initialization sucessfull!\n");
+		LOG_INFO("Game Engine initialization sucessfull!");
 	}
 	catch (std::exception e)
 	{
-		printf("Exception Caught: %s\n", e.what());
+		LOG_FATAL("Exception Caught: %s", e.what());
 	}
 }
 
 void WorldOfCubes::run()
 {
-	printf("Starting main loop!\n");
+	LOG_INFO("Starting main loop!");
 	while(m_engine->is_running())
 	{
 		m_engine->tick();

@@ -23,7 +23,7 @@ GraphicsPipeline::~GraphicsPipeline()
 	context->m_device.destroyPipelineLayout(m_pipeline_layout);
 	context->m_device.destroyPipeline(m_pipeline);
 
-	printf("Graphics pipeline destroyed.\n");
+	LOG_DEBUG("Graphics pipeline destroyed.");
 }
 
 void GraphicsPipeline::init()
@@ -65,12 +65,23 @@ void GraphicsPipeline::create_descriptor_set_layout()
 {
 	GET_CONTEXT;
 
+	vk::DescriptorSetLayoutBinding ds_ubo_layout_binding;
+	ds_ubo_layout_binding.binding = 0;
+	ds_ubo_layout_binding.descriptorCount = 1;
+	ds_ubo_layout_binding.descriptorType = vk::DescriptorType::eUniformBuffer;
+	ds_ubo_layout_binding.stageFlags = vk::ShaderStageFlagBits::eVertex;
 
+	vk::DescriptorSetLayoutBinding ds_sampler_layout_binding;
+	ds_sampler_layout_binding.binding = 1;
+	ds_sampler_layout_binding.descriptorCount = 1;
+	ds_sampler_layout_binding.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+	ds_sampler_layout_binding.stageFlags = vk::ShaderStageFlagBits::eFragment;
+
+	std::array<vk::DescriptorSetLayoutBinding, 2> bindings { ds_ubo_layout_binding, ds_sampler_layout_binding };
 
 	vk::DescriptorSetLayoutCreateInfo ds_layout_create_info;
-	ds_layout_create_info.bindingCount = 0;
-
-
+	ds_layout_create_info.bindingCount = 2;
+	ds_layout_create_info.pBindings = bindings.data();
 
 	m_descriptor_set_layout = context->m_device.createDescriptorSetLayout(ds_layout_create_info);
 }
