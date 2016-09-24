@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Application">
+      <UniqueIdentifier>{5bba4d2a-2d63-4643-819e-9813c5a102e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{60513f27-d2a4-4e81-a326-7ba566b89d76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{5b0b5f3d-c102-4f47-bf60-1d359ec37040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{c2cfd11c-706d-4ddf-b345-ee1c64b5b0c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Vulkan">
+      <UniqueIdentifier>{fc9b5b2e-9be3-4326-94e0-e08df83cb175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window">
+      <UniqueIdentifier>{4ac49a95-4846-47c6-bbbc-20eb6be6e017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{622c90ad-7f6d-492c-97b7-4fc341d2855b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\IO">
+      <UniqueIdentifier>{e20e5bb8-3130-40c4-8bda-8830c7b3081c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Vulkan\Object">
+      <UniqueIdentifier>{3a279535-3151-4d0c-b3a4-29867942444f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldOfCubes.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanAPI.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSystem.h">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Context.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Swapchain.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonUtils.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsSystem.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsPipeline.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObject.h">
+      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldOfCubes.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowSystem.cpp">
+      <Filter>Engine\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Context.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanAPI.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Swapchain.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonUtils.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsSystem.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsPipeline.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObject.cpp">
+      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
