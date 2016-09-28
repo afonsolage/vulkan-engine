@@ -220,6 +220,7 @@ void Logging::fatal(const char* format, ...)
 
 void Logging::debug(const char* format, ...)
 {
+#ifndef NDEBUG
 	char tmp_buffer[m_buffer_length];
 
 	std::va_list args;
@@ -228,10 +229,12 @@ void Logging::debug(const char* format, ...)
 	va_end(args);
 
 	BOOST_LOG_TRIVIAL(debug) << tmp_buffer;
+#endif
 }
 
 void Logging::trace(const char* format, ...)
 {
+#ifndef NDEBUG
 	char tmp_buffer[m_buffer_length];
 
 	std::va_list args;
@@ -240,4 +243,5 @@ void Logging::trace(const char* format, ...)
 	va_end(args);
 
 	BOOST_LOG_TRIVIAL(trace) << tmp_buffer;
+#endif
 }

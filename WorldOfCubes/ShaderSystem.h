@@ -26,29 +26,29 @@ struct ShaderInfo
 	ShaderInfo(const ShaderInfo& other) : name(other.name), type(other.type), entry(other.entry) {}
 };
 
-class ShaderManager
+class ShaderSystem
 {
 public:
 
 	enum class Shader
 	{
 		eNone, //THIS ONE SHOULD BE THE FIRST ONE. ALWAYS.
-		eVert,
-		eFrag,
+		eColoredVert,
+		eColoredFrag,
 
 		eMax, //THIS ONE SHOULD BE THE LAST ONE. ALWAYS.
 	};
 
-	ShaderManager(std::shared_ptr<GraphicsSystem>& graphics_system);
-	~ShaderManager();
+	ShaderSystem(std::shared_ptr<GraphicsSystem>& graphics_system);
+	~ShaderSystem();
 
 	void init();
 
-	std::vector<vk::PipelineShaderStageCreateInfo> get_shader_create_info(std::vector<ShaderManager::Shader> shaders);
+	std::vector<vk::PipelineShaderStageCreateInfo> get_shader_create_info(std::vector<ShaderSystem::Shader> shaders);
 
 
 private:
-	const ShaderInfo& get_shader_info(ShaderManager::Shader shader, bool load_module = true);
+	const ShaderInfo& get_shader_info(ShaderSystem::Shader shader, bool load_module = true);
 
 	void load_shader_module(ShaderInfo& shader_info);
 
@@ -56,7 +56,7 @@ private:
 	std::weak_ptr<FileSystem> m_file_system;
 	std::weak_ptr<Context> m_context;
 
-	std::unordered_map<ShaderManager::Shader, ShaderInfo> m_shader_module_map;
+	std::unordered_map<ShaderSystem::Shader, ShaderInfo> m_shader_module_map;
 
 	const std::string m_shader_folder = "assets/shader";
 	const std::string m_shader_info_file_path = "assets/shader/shader.info";

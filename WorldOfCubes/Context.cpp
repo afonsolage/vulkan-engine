@@ -297,7 +297,40 @@ int Context::calc_physical_device_rank(const vk::PhysicalDevice& physical_device
 	return rank;
 }
 
-vk::ImageView Context::create_image_view(vk::Image image, vk::Format format, vk::ImageAspectFlags aspect_flags)
+void Context::transition_image_layout(vk::Image image, vk::ImageLayout src_layout, vk::ImageLayout dst_layout)
+{
+
+}
+
+void Context::create_image(vk::Extent3D extent, vk::ImageTiling tiling, vk::Format format, vk::ImageUsageFlags usage_flags, vk::MemoryPropertyFlags property_flags, vk::Image & image, vk::DeviceMemory & buffer) const
+{
+	vk::ImageCreateInfo create_info;
+
+	create_info.imageType = vk::ImageType::e2D;
+	create_info.extent = extent;
+	create_info.mipLevels = 1;
+	create_info.arrayLayers = 1;
+	create_info.format = format;
+	create_info.tiling = tiling;
+	create_info.initialLayout = vk::ImageLayout::ePreinitialized;
+	create_info.usage = usage_flags;
+	create_info.sharingMode = vk::SharingMode::eExclusive;
+	create_info.samples = vk::SampleCountFlagBits::e1;
+
+	image = m_device.createImage(create_info);
+
+	auto memory_requirements = get_memory_requirements(image);
+
+	vk::MemoryAllocateInfo alloc_info;
+	alloc_info.allocationSize = memory_requirements.size;
+	alloc_info.memoryTypeIndex = find_memory_index(memory_requirements.memoryTypeBits, property_flags);
+
+	buffer = m_device.allocateMemory(alloc_info);
+
+	m_device.bindImageMemory(image, buffer, vk::DeviceSize{ 0 });
+}
+
+vk::ImageView Context::create_image_view(vk::Image image, vk::Format format, vk::ImageAspectFlags aspect_flags) const
 {
 	vk::ImageViewCreateInfo create_info;
 	create_info.image = image;
@@ -331,6 +364,26 @@ vk::Format Context::find_supported_format(const std::vector<vk::Format>& candida
 	}
 
 	throw std::runtime_error("Failed to find supported format!");
+}
+
+uint32_t Context::find_memory_index(uint32_t type, vk::MemoryPropertyFlags prop_flags) const
+{
+	auto mem_properies = m_physical_device.getMemoryProperties();
+
+	for (uint32_t i = 0; i < mem_properies.memoryTypeCount; i++)
+	{
+		if (type & (1 << i) && (mem_properies.memoryTypes[i].propertyFlags & prop_flags) == prop_flags)
+		{
+			return i;
+		}
+	}
+
+	throw std::runtime_error("Failed to find suitable memory type.");
+}
+
+vk::MemoryRequirements Context::get_memory_requirements(vk::Image image) const
+{
+	return m_device.getImageMemoryRequirements(image);
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Context::debugCallback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objType, uint64_t obj, size_t location, int32_t code, const char * layerPrefix, const char * msg, void * userData)

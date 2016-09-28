@@ -25,16 +25,25 @@
     <Filter Include="Engine\IO">
       <UniqueIdentifier>{e20e5bb8-3130-40c4-8bda-8830c7b3081c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Vulkan\Object">
+    <Filter Include="Application\State">
+      <UniqueIdentifier>{acb1eaca-7010-4087-b1e0-c8602c38307b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Object">
       <UniqueIdentifier>{3a279535-3151-4d0c-b3a4-29867942444f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Shader">
+      <UniqueIdentifier>{0db78442-90b1-48a0-b641-e71872b6b3c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Shader\Source">
+      <UniqueIdentifier>{0bcb2317-1883-4e3b-8580-43dabcca441d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Material">
+      <UniqueIdentifier>{301f54bb-5601-441d-981b-7da761cdbe40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldOfCubes.h">
-      <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="VulkanAPI.h">
       <Filter>Engine\Graphics\Vulkan</Filter>
@@ -57,20 +66,11 @@
     <ClInclude Include="GraphicsSystem.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsPipeline.h">
-      <Filter>Engine\Graphics\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Engine\Graphics\Vulkan</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystem.h">
       <Filter>Engine\IO</Filter>
     </ClInclude>
     <ClInclude Include="MeshObject.h">
-      <Filter>Engine\Graphics\Vulkan\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraObject.h">
-      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+      <Filter>Engine\Object</Filter>
     </ClInclude>
     <ClInclude Include="MathUtils.h">
       <Filter>Common</Filter>
@@ -78,13 +78,34 @@
     <ClInclude Include="Logging.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractApplicationState.h">
+      <Filter>Application\State</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldApplicationState.h">
+      <Filter>Application\State</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderSystem.h">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ColoredMaterial.h">
+      <Filter>Engine\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGraphicsPipeline.h">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldOfCubes.cpp">
-      <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>Engine</Filter>
@@ -107,20 +128,11 @@
     <ClCompile Include="GraphicsSystem.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsPipeline.cpp">
-      <Filter>Engine\Graphics\Vulkan</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Engine\Graphics\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystem.cpp">
       <Filter>Engine\IO</Filter>
     </ClCompile>
     <ClCompile Include="MeshObject.cpp">
-      <Filter>Engine\Graphics\Vulkan\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraObject.cpp">
-      <Filter>Engine\Graphics\Vulkan\Object</Filter>
+      <Filter>Engine\Object</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Main</Filter>
@@ -128,5 +140,37 @@
     <ClCompile Include="Logging.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractApplicationState.cpp">
+      <Filter>Application\State</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldApplicationState.cpp">
+      <Filter>Application\State</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderSystem.cpp">
+      <Filter>Engine\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ColoredMaterial.cpp">
+      <Filter>Engine\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGraphicsPipeline.cpp">
+      <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\shader\Colored.frag">
+      <Filter>Engine\Graphics\Shader\Source</Filter>
+    </None>
+    <None Include="..\assets\shader\Colored.vert">
+      <Filter>Engine\Graphics\Shader\Source</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
 1
 {
-	name vert
+	name colored.vert
 	type vertex
 	entry main
 }
 
 2
 {
-	name frag
+	name colored.frag
 	type fragment
 	entry main
 }

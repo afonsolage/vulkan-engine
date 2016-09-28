@@ -142,34 +142,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CameraObject.h" />
+    <ClInclude Include="AbstractApplicationState.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ColoredMaterial.h" />
     <ClInclude Include="CommonUtils.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="BaseGraphicsPipeline.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="Logging.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MeshObject.h" />
-    <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="ShaderSystem.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Swapchain.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="VulkanAPI.h" />
     <ClInclude Include="WindowSystem.h" />
-    <ClInclude Include="WorldOfCubes.h" />
+    <ClInclude Include="WorldApplicationState.h" />
+    <ClInclude Include="Application.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="AbstractApplicationState.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ColoredMaterial.cpp" />
     <ClCompile Include="CommonUtils.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="BaseGraphicsPipeline.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="Logging.cpp" />
     <ClCompile Include="MeshObject.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="ShaderSystem.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -178,9 +184,15 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Swapchain.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VulkanAPI.cpp" />
     <ClCompile Include="WindowSystem.cpp" />
-    <ClCompile Include="WorldOfCubes.cpp" />
+    <ClCompile Include="WorldApplicationState.cpp" />
+    <ClCompile Include="Application.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\assets\shader\Colored.frag" />
+    <None Include="..\assets\shader\Colored.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

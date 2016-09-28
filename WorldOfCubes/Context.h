@@ -14,8 +14,15 @@ public:
 
 	void init();
 
-	vk::ImageView create_image_view(vk::Image image, vk::Format format, vk::ImageAspectFlags aspect_flags);
+
+	void transition_image_layout(vk::Image image, vk::ImageLayout src_layout, vk::ImageLayout dst_layout);
+	void create_image(vk::Extent3D extent, vk::ImageTiling tiling, vk::Format format, vk::ImageUsageFlags usage_flags, 
+		vk::MemoryPropertyFlags property_flags, vk::Image& image, vk::DeviceMemory& buffer) const;
+	vk::ImageView create_image_view(vk::Image image, vk::Format format, vk::ImageAspectFlags aspect_flags) const;
 	vk::Format find_supported_format(const std::vector<vk::Format>& candidates, vk::ImageTiling tiling, vk::FormatFeatureFlags flags) const;
+	uint32_t find_memory_index(uint32_t type, vk::MemoryPropertyFlags prop_flags) const;
+	vk::MemoryRequirements get_memory_requirements(vk::Image image) const;
+
 
 	vk::Instance m_instance;
 	vk::SurfaceKHR m_surface;

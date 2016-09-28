@@ -25,8 +25,9 @@ public:
 	void tick();
 	bool is_running();
 
-	std::weak_ptr<WindowSystem> get_window_system() { return m_window_system; };
-	std::weak_ptr<FileSystem> get_file_system() { return m_file_system; }
+	std::weak_ptr<WindowSystem> get_window_system() const noexcept { return m_window_system; }
+	std::weak_ptr<FileSystem> get_file_system() const noexcept { return m_file_system; }
+	std::weak_ptr<GraphicsSystem> get_graphics_sytem() const noexcept { return m_graphic_system; }
 
 	uint32_t get_window_width() const { return m_window_size.x; };
 	uint32_t get_window_height() const { return m_window_size.y; };

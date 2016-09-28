@@ -3,8 +3,9 @@
 #include "Context.h"
 #include "GameEngine.h"
 #include "Swapchain.h"
-#include "GraphicsPipeline.h"
-#include "ShaderManager.h"
+#include "BaseGraphicsPipeline.h"
+#include "ShaderSystem.h"
+#include "ColoredMaterial.h"
 
 GraphicsSystem::GraphicsSystem(std::shared_ptr<GameEngine>& engine)
 	: m_engine(engine)
@@ -21,14 +22,21 @@ void GraphicsSystem::init()
 {
 	m_context->init();
 
-	m_shader_manager = std::make_shared<ShaderManager>(shared_from_this());
+	m_shader_manager = std::make_shared<ShaderSystem>(shared_from_this());
 	m_shader_manager->init();
 
 	m_swapchain = std::make_shared<Swapchain>(shared_from_this());
 	m_swapchain->init();
 
-	m_pipeline = std::make_shared<GraphicsPipeline>(shared_from_this());
-	m_pipeline->init();
+	m_base_pipeline = std::make_shared<BaseGraphicsPipeline>(shared_from_this());
+	m_base_pipeline->init();
+
+	init_materials();
+}
+
+void GraphicsSystem::init_materials()
+{
+	m_material_map.insert({&typeid(ColoredMaterial), std::make_shared<ColoredMaterial>(shared_from_this())});
 }
 
 uint32_t GraphicsSystem::get_window_width() const

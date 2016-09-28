@@ -7,8 +7,10 @@ struct VertexData
 {
 	glm::vec3 pos;
 	glm::vec3 color;
-	glm::vec2 tex_coord;
+	//glm::vec2 tex_coord;
 };
+
+using VertexDataAttributeDescriptions = std::array<vk::VertexInputAttributeDescription, 2>;
 
 class MeshObject
 {
@@ -17,12 +19,13 @@ public:
 	virtual ~MeshObject();
 
 	static vk::VertexInputBindingDescription get_vertex_input_binding_description() noexcept;
-	static std::vector<vk::VertexInputAttributeDescription> get_vertex_input_attribute_description() noexcept;
+
+	static VertexDataAttributeDescriptions get_vertex_input_attribute_description() noexcept;
 
 private:
 
 	static const int POS = 0;
 	static const int COLOR = 1;
-	static const int TEX_COLOR = 2;
+	//static const int TEX_COLOR = 2;
 };
 

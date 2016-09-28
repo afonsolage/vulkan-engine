@@ -22,9 +22,9 @@ vk::VertexInputBindingDescription MeshObject::get_vertex_input_binding_descripti
 	return binding_description;
 }
 
-std::vector<vk::VertexInputAttributeDescription> MeshObject::get_vertex_input_attribute_description() noexcept
+VertexDataAttributeDescriptions MeshObject::get_vertex_input_attribute_description() noexcept
 {
-	std::vector<vk::VertexInputAttributeDescription> attribute_descriptions(3);
+	VertexDataAttributeDescriptions attribute_descriptions;
 
 	attribute_descriptions[0].binding = 0;
 	attribute_descriptions[0].location = 0;
@@ -36,10 +36,10 @@ std::vector<vk::VertexInputAttributeDescription> MeshObject::get_vertex_input_at
 	attribute_descriptions[1].format = vk::Format::eR32G32B32Sfloat;
 	attribute_descriptions[1].offset = offsetof(VertexData, color);
 
-	attribute_descriptions[2].binding = 0;
-	attribute_descriptions[2].location = 2;
-	attribute_descriptions[2].format = vk::Format::eR32G32Sfloat;
-	attribute_descriptions[2].offset = offsetof(VertexData, tex_coord);
+	//attribute_descriptions[2].binding = 0;
+	//attribute_descriptions[2].location = 2;
+	//attribute_descriptions[2].format = vk::Format::eR32G32Sfloat;
+	//attribute_descriptions[2].offset = offsetof(VertexData, tex_coord);
 	
 	return attribute_descriptions;
 }

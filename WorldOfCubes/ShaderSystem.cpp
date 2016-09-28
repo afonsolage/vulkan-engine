@@ -1,18 +1,18 @@
 #include "stdafx.h"
-#include "ShaderManager.h"
+#include "ShaderSystem.h"
 
 #include "GraphicsSystem.h"
 #include "GameEngine.h"
 #include "FileSystem.h"
 #include "Context.h"
 
-ShaderManager::ShaderManager(std::shared_ptr<GraphicsSystem>& graphics_system)
+ShaderSystem::ShaderSystem(std::shared_ptr<GraphicsSystem>& graphics_system)
 	: m_graphics_system(graphics_system)
 {
 	m_context = graphics_system->get_context();
 }
 
-ShaderManager::~ShaderManager()
+ShaderSystem::~ShaderSystem()
 {
 	GET_CONTEXT;
 	for (const auto& shader : m_shader_module_map)
@@ -26,7 +26,7 @@ ShaderManager::~ShaderManager()
 	LOG_DEBUG("Shader manager destroyed.");
 }
 
-void ShaderManager::init()
+void ShaderSystem::init()
 {
 	SAFE_GET(graphics_system, m_graphics_system);
 	SAFE_GET(game_engine, graphics_system->get_engine());
@@ -36,8 +36,8 @@ void ShaderManager::init()
 
 	ptree shader_info = file_system->load_info_file(m_shader_info_file_path);
 
-	auto begin_shader_type = ((uint32_t)ShaderManager::Shader::eNone) + 1;
-	auto end_shader_type = (uint32_t)ShaderManager::Shader::eMax;
+	auto begin_shader_type = ((uint32_t)ShaderSystem::Shader::eNone) + 1;
+	auto end_shader_type = (uint32_t)ShaderSystem::Shader::eMax;
 
 	for (auto i = begin_shader_type; i < end_shader_type; i++)
 	{
@@ -85,7 +85,7 @@ void ShaderManager::init()
 
 		m_shader_module_map.emplace(
 			std::piecewise_construct,
-			std::forward_as_tuple((ShaderManager::Shader)i),
+			std::forward_as_tuple((ShaderSystem::Shader)i),
 			std::forward_as_tuple(std::move(name_opt.get()), type_it->second, std::move(entry_opt.get()))
 		);
 	}
@@ -93,7 +93,7 @@ void ShaderManager::init()
 	LOG_INFO("Shader info load completed. %d shaders was loaded.", m_shader_module_map.size());
 }
 
-std::vector<vk::PipelineShaderStageCreateInfo> ShaderManager::get_shader_create_info(std::vector<ShaderManager::Shader> shaders)
+std::vector<vk::PipelineShaderStageCreateInfo> ShaderSystem::get_shader_create_info(std::vector<ShaderSystem::Shader> shaders)
 {
 	std::vector<vk::PipelineShaderStageCreateInfo> result(shaders.size(), vk::PipelineShaderStageCreateInfo());
 
@@ -112,7 +112,7 @@ std::vector<vk::PipelineShaderStageCreateInfo> ShaderManager::get_shader_create_
 	return result;
 }
 
-const ShaderInfo& ShaderManager::get_shader_info(ShaderManager::Shader shader, bool load_module)
+const ShaderInfo& ShaderSystem::get_shader_info(ShaderSystem::Shader shader, bool load_module)
 {
 	auto it = m_shader_module_map.find(shader);
 
@@ -131,7 +131,7 @@ const ShaderInfo& ShaderManager::get_shader_info(ShaderManager::Shader shader, b
 	return shader_info;
 }
 
-void ShaderManager::load_shader_module(ShaderInfo& shader_info)
+void ShaderSystem::load_shader_module(ShaderInfo& shader_info)
 {
 	std::stringstream ss;
 
