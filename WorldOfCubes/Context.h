@@ -14,9 +14,11 @@ public:
 
 	void init();
 
+	vk::CommandBuffer begin_single_use_command_buffer();
+	void end_single_use_command_buffer(vk::CommandBuffer& command_buffer);
 
 	void transition_image_layout(vk::Image image, vk::ImageLayout src_layout, vk::ImageLayout dst_layout);
-	void create_image(vk::Extent3D extent, vk::ImageTiling tiling, vk::Format format, vk::ImageUsageFlags usage_flags, 
+	void create_image(vk::Extent3D extent, vk::ImageTiling tiling, vk::Format format, vk::ImageUsageFlags usage_flags,
 		vk::MemoryPropertyFlags property_flags, vk::Image& image, vk::DeviceMemory& buffer) const;
 	vk::ImageView create_image_view(vk::Image image, vk::Format format, vk::ImageAspectFlags aspect_flags) const;
 	vk::Format find_supported_format(const std::vector<vk::Format>& candidates, vk::ImageTiling tiling, vk::FormatFeatureFlags flags) const;
@@ -32,6 +34,7 @@ public:
 	vk::Semaphore m_render_finished_semaphore;
 	vk::Queue m_present_queue;
 	vk::Queue m_graphics_queue;
+	vk::Fence m_single_usage_fence;
 
 	vk::CommandPool m_graphics_command_pool;
 	vk::CommandPool m_present_command_pool;
@@ -50,6 +53,7 @@ private:
 	void create_logical_device();
 	void create_semaphores();
 	void create_command_pool();
+	void create_fence();
 
 	void destroy_command_pool();
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MathUtils.h"
-#include "Transform.h"
+#include "TransformComponent.h"
 
 class GraphicsSystem;
 class Context;
@@ -21,7 +21,7 @@ private:
 	std::weak_ptr<GraphicsSystem> m_graphics_system;
 	std::weak_ptr<Context> m_context;
 
-	Transform transform;
+	TransformComponent transform;
 
 	glm::mat4 m_view;
 	glm::mat4 m_projection;

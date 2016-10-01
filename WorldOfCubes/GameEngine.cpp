@@ -8,6 +8,7 @@ GameEngine::GameEngine(std::string app_name, uint32_t app_version)
 	: m_app_name(app_name)
 	, m_app_version(app_version)
 	, m_window_size({ 800, 600 })
+	, m_running(false)
 {
 	m_window_system = std::make_shared<WindowSystem>();
 	m_file_system = std::make_shared<FileSystem>();
@@ -30,6 +31,8 @@ void GameEngine::init()
 
 	m_graphic_system = std::make_shared<GraphicsSystem>(shared_from_this());
 	m_graphic_system->init();
+
+	m_running = true;
 }
 
 void GameEngine::tick()
@@ -39,5 +42,9 @@ void GameEngine::tick()
 
 bool GameEngine::is_running()
 {
-	return !m_window_system->close_requested();
+#ifdef TEST_MODE
+	return m_running;
+#else
+	return m_running && !m_window_system->close_requested();
+#endif
 }

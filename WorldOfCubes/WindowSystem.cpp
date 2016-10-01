@@ -32,7 +32,9 @@ void WindowSystem::init(const char* window_title, int width, int height)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	
+#ifdef TEST_MODE
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+#endif
 	m_window.reset(glfwCreateWindow(width, height, window_title, nullptr, nullptr));
 }
 

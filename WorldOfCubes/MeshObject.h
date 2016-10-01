@@ -24,6 +24,8 @@ public:
 
 private:
 
+	vk::Buffer m_vertex_buffer;
+
 	static const int POS = 0;
 	static const int COLOR = 1;
 	//static const int TEX_COLOR = 2;

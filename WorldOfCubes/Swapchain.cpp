@@ -69,6 +69,32 @@ bool Swapchain::present()
 	return is_swapchain_valid(result);
 }
 
+void Swapchain::create_framebuffer(vk::RenderPass& render_pass, vk::ImageView depth_image_view)
+{
+	std::array<vk::ImageView, 2> attachments;
+
+	attachments[1] = depth_image_view;
+
+	vk::FramebufferCreateInfo create_info;
+	create_info.renderPass = render_pass;
+	create_info.attachmentCount = attachments.size();
+	create_info.width = m_extent.width;
+	create_info.height = m_extent.height;
+	create_info.layers = 1;
+
+	GET_CONTEXT;
+
+	for (uint32_t i = 0; i < m_images.size(); i++)
+	{
+		attachments[0] = m_images[i].image_view;
+		create_info.pAttachments = attachments.data();
+
+		assert(!m_images[i].framebuffer);
+
+		m_images[i].framebuffer = context->m_device.createFramebuffer(create_info);
+	}
+}
+
 vk::AttachmentDescription Swapchain::get_attachment_description() const noexcept
 {
 	vk::AttachmentDescription description;

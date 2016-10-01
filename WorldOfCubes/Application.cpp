@@ -3,6 +3,7 @@
 #include "GameEngine.h"
 #include "WorldApplicationState.h"
 
+
 Application::Application()
 {
 
@@ -24,8 +25,6 @@ void Application::init()
 		m_engine = std::make_shared<GameEngine>(m_app_name, m_app_version);
 		m_engine->init();
 
-		change_state<WorldApplicationState>();
-
 		LOG_INFO("Game Engine initialization sucessfull!");
 	}
 	catch (std::exception e)
@@ -46,14 +45,4 @@ void Application::run()
 
 		m_engine->tick();
 	}
-}
-
-template<typename T>
-void Application::change_state()
-{
-	if (m_state)
-		m_state->terminate();
-
-	m_state = std::make_unique<T>(shared_from_this());
-	m_state->initialize();
 }

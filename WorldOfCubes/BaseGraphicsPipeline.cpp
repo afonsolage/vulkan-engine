@@ -41,6 +41,8 @@ void BaseGraphicsPipeline::init()
 
 	create_render_pass();
 	create_depth_buffer();
+
+	swapchain->create_framebuffer(m_render_pass, m_depth_image_view);
 }
 
 vk::PipelineInputAssemblyStateCreateInfo BaseGraphicsPipeline::get_input_assembly_stage_create_info()
@@ -141,6 +143,8 @@ void BaseGraphicsPipeline::create_depth_buffer()
 		vk::ImageTiling::eOptimal, m_depth_format,
 		vk::ImageUsageFlagBits::eDepthStencilAttachment, vk::MemoryPropertyFlagBits::eDeviceLocal, m_depth_image, m_depth_memory);
 	m_depth_image_view = context->create_image_view(m_depth_image, m_depth_format, vk::ImageAspectFlagBits::eDepth);
+
+	context->transition_image_layout(m_depth_image, vk::ImageLayout::eUndefined, vk::ImageLayout::eDepthStencilAttachmentOptimal);
 }
 
 vk::AttachmentDescription BaseGraphicsPipeline::get_depth_attachment() const

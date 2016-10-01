@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Application.h"
 
+#ifndef TEST_MODE
 int main()
 {
 	Logging::init();
@@ -14,3 +15,4 @@ int main()
 
     return 0;
 }
+#endif

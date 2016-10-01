@@ -20,6 +20,7 @@ Context::~Context()
 	m_device.destroySemaphore(m_image_available_semaphore);
 	m_device.destroySemaphore(m_render_finished_semaphore);
 
+	m_device.destroyFence(m_single_usage_fence);
 	m_device.destroy();
 
 	m_instance.destroySurfaceKHR(m_surface);
@@ -40,7 +41,39 @@ void Context::init()
 	find_physical_device();
 	create_logical_device();
 	create_semaphores();
+	create_fence();
 	create_command_pool();
+}
+
+vk::CommandBuffer Context::begin_single_use_command_buffer()
+{
+	vk::CommandBufferAllocateInfo alloc_info;
+	alloc_info.level = vk::CommandBufferLevel::ePrimary;
+	alloc_info.commandPool = m_graphics_command_pool;
+	alloc_info.commandBufferCount = 1;
+
+	auto command_buffer = m_device.allocateCommandBuffers(alloc_info).front();
+
+	vk::CommandBufferBeginInfo begin_info;
+	begin_info.flags = vk::CommandBufferUsageFlagBits::eOneTimeSubmit;
+
+	command_buffer.begin(begin_info);
+
+	return command_buffer;
+}
+
+void Context::end_single_use_command_buffer(vk::CommandBuffer & command_buffer)
+{
+	command_buffer.end();
+
+	vk::SubmitInfo submit_info;
+	submit_info.commandBufferCount = 1;
+	submit_info.pCommandBuffers = &command_buffer;
+
+	m_graphics_queue.submit(submit_info, m_single_usage_fence);
+
+	m_device.waitForFences(m_single_usage_fence, VK_TRUE, std::numeric_limits<uint64_t>::max());
+	m_device.resetFences(m_single_usage_fence);
 }
 
 void Context::create_instance()
@@ -222,6 +255,11 @@ void Context::create_command_pool()
 	}
 }
 
+void Context::create_fence()
+{
+	m_single_usage_fence = m_device.createFence(vk::FenceCreateInfo());
+}
+
 void Context::destroy_command_pool()
 {
 	m_device.destroyCommandPool(m_graphics_command_pool);
@@ -299,7 +337,42 @@ int Context::calc_physical_device_rank(const vk::PhysicalDevice& physical_device
 
 void Context::transition_image_layout(vk::Image image, vk::ImageLayout src_layout, vk::ImageLayout dst_layout)
 {
+	auto command_buffer = begin_single_use_command_buffer();
 
+	vk::ImageMemoryBarrier barrier;
+	barrier.oldLayout = src_layout;
+	barrier.newLayout = dst_layout;
+	barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+	barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+	barrier.image = image;
+	barrier.subresourceRange.aspectMask = (dst_layout == vk::ImageLayout::eDepthStencilAttachmentOptimal) ? vk::ImageAspectFlagBits::eDepth : vk::ImageAspectFlagBits::eColor;
+	barrier.subresourceRange.baseMipLevel = 0;
+	barrier.subresourceRange.levelCount = 1;
+	barrier.subresourceRange.baseArrayLayer = 0;
+	barrier.subresourceRange.layerCount = 1;
+
+	if (src_layout == vk::ImageLayout::ePreinitialized && dst_layout == vk::ImageLayout::eTransferSrcOptimal)
+	{
+		barrier.srcAccessMask = vk::AccessFlagBits::eHostWrite;
+		barrier.dstAccessMask = vk::AccessFlagBits::eHostRead;
+	}
+	else if (src_layout == vk::ImageLayout::ePreinitialized && dst_layout == vk::ImageLayout::eTransferDstOptimal)
+	{
+		barrier.srcAccessMask = vk::AccessFlagBits::eHostWrite;
+		barrier.dstAccessMask = vk::AccessFlagBits::eHostWrite;
+	}
+	else if (src_layout == vk::ImageLayout::eTransferDstOptimal && dst_layout == vk::ImageLayout::eShaderReadOnlyOptimal)
+	{
+		barrier.srcAccessMask = vk::AccessFlagBits::eHostWrite;
+		barrier.dstAccessMask = vk::AccessFlagBits::eShaderRead;
+	}
+	else if (src_layout == vk::ImageLayout::eUndefined && dst_layout == vk::ImageLayout::eDepthStencilAttachmentOptimal)
+	{
+		barrier.dstAccessMask = vk::AccessFlagBits::eDepthStencilAttachmentRead | vk::AccessFlagBits::eDepthStencilAttachmentWrite;
+	}
+
+	command_buffer.pipelineBarrier(vk::PipelineStageFlagBits::eTopOfPipe, vk::PipelineStageFlagBits::eTopOfPipe, vk::DependencyFlags(), nullptr, nullptr, barrier);
+	end_single_use_command_buffer(command_buffer);
 }
 
 void Context::create_image(vk::Extent3D extent, vk::ImageTiling tiling, vk::Format format, vk::ImageUsageFlags usage_flags, vk::MemoryPropertyFlags property_flags, vk::Image & image, vk::DeviceMemory & buffer) const

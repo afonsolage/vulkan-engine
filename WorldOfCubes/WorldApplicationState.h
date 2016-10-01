@@ -14,13 +14,11 @@ public:
 	virtual ~WorldApplicationState();
 
 private:
-	virtual void initialize() override;
-	virtual void update(float delta) override;
-	virtual void terminate() override;
+	virtual void on_initialized() override;
+	virtual void on_updated(float delta) override;
+	virtual void on_terminated() override;
 
 	std::shared_ptr<Camera> m_main_camera;
-
-	std::weak_ptr<GameEngine> m_engine;
 	std::weak_ptr<GraphicsSystem> m_graphics_system;
 };
 

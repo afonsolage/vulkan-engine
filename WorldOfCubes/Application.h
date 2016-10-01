@@ -18,6 +18,9 @@ public:
 	template<typename T>
 	void change_state();
 
+	template<typename T>
+	bool is_state();
+
 	std::weak_ptr<GameEngine> get_engine() const noexcept { return m_engine; }
 
 private:
@@ -28,3 +31,19 @@ private:
 
 	std::unique_ptr<AbstractApplicationState> m_state;
 };
+
+template<typename T>
+void Application::change_state()
+{
+	if (m_state)
+		m_state->terminate();
+
+	m_state = std::make_unique<T>(shared_from_this());
+	m_state->initialize();
+}
+
+template<typename T>
+inline bool Application::is_state()
+{
+	return typeid(*m_state) == typeid(T);
+}

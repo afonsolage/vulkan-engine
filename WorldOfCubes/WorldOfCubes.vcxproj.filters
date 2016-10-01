@@ -40,6 +40,27 @@
     <Filter Include="Engine\Graphics\Material">
       <UniqueIdentifier>{301f54bb-5601-441d-981b-7da761cdbe40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Entity">
+      <UniqueIdentifier>{f813b7ac-6772-4f6b-aa58-b2ecd5e1b218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Entity\Component">
+      <UniqueIdentifier>{8487d5ad-2c4d-4ca1-9ad1-3e25a9fb449c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{e8c37a36-904b-4e68-a059-6d93769286c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Entity">
+      <UniqueIdentifier>{a0820fb4-2961-4df8-9345-abb6e5186406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Entity\Model">
+      <UniqueIdentifier>{307f1c0b-bf87-47eb-b0a2-0d617e2a6384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\ApplicationState">
+      <UniqueIdentifier>{a458c624-a0a8-4131-b0a4-649bacaefcd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\ApplicationState\Model">
+      <UniqueIdentifier>{13af06f0-5c7f-4f25-912f-846a0107bf9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -78,9 +99,6 @@
     <ClInclude Include="Logging.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
@@ -101,6 +119,30 @@
     </ClInclude>
     <ClInclude Include="BaseGraphicsPipeline.h">
       <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Engine\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractComponent.h">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TestComponent.h">
+      <Filter>Test\Entity\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TestApplicationState.h">
+      <Filter>Test\ApplicationState\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixtures.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -140,9 +182,6 @@
     <ClCompile Include="Logging.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Engine\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Object</Filter>
     </ClCompile>
@@ -163,6 +202,36 @@
     </ClCompile>
     <ClCompile Include="BaseGraphicsPipeline.cpp">
       <Filter>Engine\Graphics\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Engine\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractComponent.cpp">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TestComponent.cpp">
+      <Filter>Test\Entity\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityTestModule.cpp">
+      <Filter>Test\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationStateTestModule.cpp">
+      <Filter>Test\ApplicationState</Filter>
+    </ClCompile>
+    <ClCompile Include="TestApplicationState.cpp">
+      <Filter>Test\ApplicationState\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="MainTestUnit.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,16 +5,18 @@
 #include "Camera.h"
 #include "GraphicsSystem.h"
 #include "ColoredMaterial.h"
+#include "Entity.h"
+#include "MeshComponent.h"
 
 WorldApplicationState::WorldApplicationState(std::shared_ptr<Application> application)
 	: AbstractApplicationState(application)
 {
-	m_engine = application->get_engine();
-
 	auto engine = m_engine.lock();
 
 	if (!engine)
+	{
 		LOG_FATAL("Unable to get engine!");
+	}
 
 	m_graphics_system = engine->get_graphics_sytem();
 
@@ -25,11 +27,9 @@ WorldApplicationState::~WorldApplicationState()
 {
 }
 
-void WorldApplicationState::initialize()
+void WorldApplicationState::on_initialized()
 {
 	LOG_INFO("Initializing World Application State");
-
-	AbstractApplicationState::initialize();
 
 	m_main_camera->setup_projection(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
 
@@ -37,17 +37,33 @@ void WorldApplicationState::initialize()
 
 	auto material = graphics_system->get_material<ColoredMaterial>().lock();
 	auto ppl = material->get_pipeline();
+
+	Entity entity;
+
+	auto& mesh_component = entity.attach<MeshComponent>();
+
+	auto component = entity.get_component<MeshComponent>().lock();
+
+	if (component)
+	{
+		component->update();
+	}
+	else
+	{
+		LOG_DEBUG("DA FUK?");
+	}
+
+	auto ptr = entity.detach<MeshComponent>();
+
+	ptr->update();
 }
 
-void WorldApplicationState::update(float delta)
+void WorldApplicationState::on_updated(float delta)
 {
-	AbstractApplicationState::update(delta);
-
+	
 }
 
-void WorldApplicationState::terminate()
+void WorldApplicationState::on_terminated()
 {
 	LOG_INFO("Terminating World Application State");
-
-	AbstractApplicationState::terminate();
 }

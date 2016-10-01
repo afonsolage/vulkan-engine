@@ -14,6 +14,7 @@ struct SwapchainImage
 
 	void destroy(const vk::Device& device)
 	{
+		device.destroyFramebuffer(framebuffer);
 		device.destroyImageView(image_view);
 	}
 };
@@ -28,6 +29,8 @@ public:
 	void init();
 	bool swap_images();
 	bool present();
+
+	void create_framebuffer(vk::RenderPass& render_pass, vk::ImageView depth_image_view);
 
 	vk::AttachmentDescription get_attachment_description() const noexcept;
 

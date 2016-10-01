@@ -25,6 +25,8 @@ public:
 	void tick();
 	bool is_running();
 
+	void finalized() { m_running = false; }
+
 	std::weak_ptr<WindowSystem> get_window_system() const noexcept { return m_window_system; }
 	std::weak_ptr<FileSystem> get_file_system() const noexcept { return m_file_system; }
 	std::weak_ptr<GraphicsSystem> get_graphics_sytem() const noexcept { return m_graphic_system; }
@@ -44,6 +46,8 @@ private:
 	std::shared_ptr<GraphicsSystem> m_graphic_system;
 	std::shared_ptr<WindowSystem> m_window_system;
 	std::shared_ptr<FileSystem> m_file_system;
+
+	bool m_running;
 };
 
 inline
