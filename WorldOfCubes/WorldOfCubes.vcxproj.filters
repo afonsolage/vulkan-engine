@@ -144,6 +144,9 @@
     <ClInclude Include="Fixtures.h">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="UniqueIdentified.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

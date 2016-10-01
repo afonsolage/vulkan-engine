@@ -11,6 +11,7 @@ WindowSystem::WindowSystem()
 
 WindowSystem::~WindowSystem()
 {
+	glfwTerminate();
 	LOG_DEBUG("Window system destroyed.");
 }
 

@@ -241,6 +241,7 @@
     <ClInclude Include="TestApplicationState.h" />
     <ClInclude Include="TestComponent.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UniqueIdentified.h" />
     <ClInclude Include="VulkanAPI.h" />
     <ClInclude Include="WindowSystem.h" />
     <ClInclude Include="WorldApplicationState.h" />

@@ -1,8 +1,12 @@
 #pragma once
 
+#include "UniqueIdentified.h"
+
 class AbstractComponent;
 
-class Entity : public std::enable_shared_from_this<Entity>
+class Entity 
+	: public std::enable_shared_from_this<Entity>
+	, public UniqueIdentified
 {
 public:
 	Entity();
@@ -11,7 +15,7 @@ public:
 	void update();
 
 	template<typename T, typename... Args>
-	T& attach(Args&&... args);
+	std::shared_ptr<T> attach(Args&&... args);
 	template<typename T>
 	std::shared_ptr<T> detach();
 	template<typename T>
@@ -22,22 +26,24 @@ private:
 };
 
 template<typename T, typename... Args>
-inline T& Entity::attach(Args&&... args)
+inline std::shared_ptr<T> Entity::attach(Args&&... args)
 {
 	//Detach any previous component, if it exists.
 	detach<T>();
 
 	//Create a new instance of component and perfect-forward the constructor arguments.
 	auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
-	T& result = *ptr;
-	//Tell component it was attached on this entity and pass a shared pointer to it.
 
+	//Generate an unique id for component;
+	ptr->generate_uid(typeid(T));
+
+	//Tell component it was attached on this entity and pass a shared pointer to it.
 #ifdef NDEBUG
-	result.attached(shared_from_this());
+	ptr->attached(shared_from_this());
 #else
 	try
 	{
-		result.attached(shared_from_this());
+		ptr->attached(shared_from_this());
 	}
 	catch (std::bad_weak_ptr ex)
 	{
@@ -47,8 +53,8 @@ inline T& Entity::attach(Args&&... args)
 #endif
 
 	//Move the new contructed pointer to components list.
-	m_components.push_back(std::move(ptr));
-	return result;
+	m_components.push_back(ptr);
+	return ptr;
 }
 
 template<typename T>

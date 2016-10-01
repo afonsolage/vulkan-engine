@@ -8,7 +8,6 @@ struct BasicAppFixture
 {
 	BasicAppFixture()
 	{
-		m_test_thread_id = std::this_thread::get_id();
 		m_application = std::make_shared<Application>();
 		m_application->init();
 	}
@@ -23,10 +22,7 @@ struct BasicAppFixture
 		}
 	}
 
-	bool is_test_thread() { return m_test_thread_id == std::this_thread::get_id(); }
-
 	std::shared_ptr<Application> m_application;
-	std::thread::id m_test_thread_id;
 };
 
 struct TestAppFixture : BasicAppFixture

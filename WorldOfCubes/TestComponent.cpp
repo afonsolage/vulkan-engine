@@ -25,6 +25,7 @@ void TestComponent::update()
 
 void TestComponent::on_attach()
 {
+	BOOST_CHECK(m_uid != 0);
 	BOOST_CHECK(is_attached());
 	BOOST_CHECK(m_execution_order++ == ON_ATTACH_ORDER);
 }

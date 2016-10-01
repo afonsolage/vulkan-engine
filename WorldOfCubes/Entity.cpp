@@ -4,6 +4,7 @@
 
 Entity::Entity()
 {
+	generate_uid(typeid(Entity));
 }
 
 

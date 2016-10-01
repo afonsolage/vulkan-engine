@@ -10,6 +10,7 @@ BOOST_FIXTURE_TEST_CASE(application_test, BasicAppFixture)
 	m_application->change_state<TestApplicationState>();
 	m_application->change_state<TestApplicationState>();
 	BOOST_CHECK(m_application->is_state<TestApplicationState>());
+	BOOST_CHECK(true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
