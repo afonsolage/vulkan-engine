@@ -3,7 +3,7 @@
 #include "Entity.h"
 
 TransformComponent::TransformComponent()
-	: m_dirty(false)
+	: m_dirty(true)
 {
 
 }
@@ -88,6 +88,7 @@ void TransformComponent::add(std::shared_ptr<TransformComponent>& child)
 
 	m_children.emplace_back(child);
 	child->m_parent = shared_from_this();
+	child->set_dirty();
 }
 
 void TransformComponent::remove(std::weak_ptr<TransformComponent>& child)
@@ -169,8 +170,6 @@ std::weak_ptr<TransformComponent> TransformComponent::find_child(const uint64_t&
 //Update world transform and apply parent transform, if not orphan
 void TransformComponent::update_world_transform()
 {
-	assert(!m_dirty);
-
 	m_dirty = false;
 	m_world_transform = m_local_transform;
 
@@ -178,6 +177,21 @@ void TransformComponent::update_world_transform()
 	{
 		auto parent = m_parent.lock();
 		m_world_transform.combine(parent->m_world_transform);
+	}
+}
+
+void TransformComponent::set_dirty()
+{
+	m_dirty = true;
+	std::shared_ptr<TransformComponent> s_ptr;
+	for (const auto& w_ptr : m_children)
+	{
+		s_ptr.swap(w_ptr.lock());
+
+		if (s_ptr && !s_ptr->is_dirty())
+		{
+			s_ptr->set_dirty();
+		}
 	}
 }
 
@@ -212,5 +226,7 @@ void TransformComponent::check_world_transform_update()
 			ptr->update_world_transform();
 			stack.pop();
 		}
+
+		update_world_transform();
 	}
 }

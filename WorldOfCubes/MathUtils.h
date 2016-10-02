@@ -33,8 +33,14 @@ namespace glmc
 	static const float almost_zero = 0.00001f;
 }
 
-template<typename T>
-inline bool almost_equals(T t1, T t2)
+inline bool almost_equals(glm::quat q1, glm::quat q2)
 {
-	return glm::abs(glm::dot(t1, t2)-1.0f) <= glmc::almost_zero;
+	return glm::abs(glm::dot(q1, q2)-1.0f) <= glmc::almost_zero;
+};
+
+inline bool almost_equals(glm::vec3 q1, glm::vec3 q2)
+{
+	return glm::abs(q1.x - q2.x) <= glmc::almost_zero && 
+		glm::abs(q1.y - q2.y) <= glmc::almost_zero && 
+		glm::abs(q1.z - q2.z) <= glmc::almost_zero;
 };

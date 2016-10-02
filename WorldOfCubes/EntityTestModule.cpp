@@ -188,7 +188,8 @@ BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
 	BOOST_CHECK(component->get_local_translate() == glm::vec3(10, 10, 10));
 
 	//Test simple rotation
-	component->set_local_rotation_degrees({ 0, 10, 0 });
+	component->set_local_rotation_degrees({ 0, 180, 0 });
+	BOOST_CHECK(component->get_local_rotation().y == 1.0f);
 
 	//Teste simple scaling
 	component->set_local_scaling({ 1.0f, 1.5f, 1.0f });
@@ -200,7 +201,7 @@ BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
 
 	//Test combined rotation
 	component->add_local_rotation_degrees({ 5, 10, 0 });
-	BOOST_CHECK(almost_equals<glm::quat>(component->get_local_rotation(), glm::quat(glm::radians(glm::vec3(0, 10, 0))) * glm::quat(glm::radians(glm::vec3(5, 10, 0)))));
+	BOOST_CHECK(almost_equals(component->get_local_rotation(), glm::quat(glm::radians(glm::vec3(0, 180, 0))) * glm::quat(glm::radians(glm::vec3(5, 10, 0)))));
 
 	//Test huge number of rotations
 	glm::quat control = component->get_local_rotation();
@@ -210,8 +211,65 @@ BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
 		component->add_local_rotation(euler);
 		control *= glm::quat(euler);
 	}
-	BOOST_CHECK(almost_equals<glm::quat>(component->get_local_rotation(), control));
+	BOOST_CHECK(almost_equals(component->get_local_rotation(), control));
 
+	//Test combined scaling
+	component->add_local_scaling({ 1.0f, 0.66666666667f, 1.0f });
+	BOOST_CHECK(almost_equals(component->get_local_scaling(), glmc::vec3_one));
+
+}
+
+BOOST_AUTO_TEST_CASE(transform_component_world_translate_test)
+{
+	auto parent = std::make_shared<Entity>();
+	auto parent_component = parent->attach<TransformComponent>();
+
+	parent_component->add_local_translate({ 0, 0, 10 });
+	parent_component->add_local_rotation_degrees({ 180, 180, 0 });
+	
+	//Test dirty flag
+	BOOST_CHECK(parent_component->is_dirty());
+
+	//Test world translation update
+	BOOST_CHECK(parent_component->get_world_translate() == glm::vec3(0, 0, 10));
+	BOOST_CHECK(almost_equals(parent_component->get_world_rotation(), glm::quat(glm::radians(glm::vec3(180, 180, 0)))));
+	
+	//Test dirty flag again
+	BOOST_CHECK(!parent_component->is_dirty());
+
+	auto child = std::make_shared<Entity>();
+	auto child_component = child->attach<TransformComponent>();
+
+	parent_component->add(child_component);
+
+	//Test auto child world update on add
+	BOOST_CHECK(child_component->get_world_translate() == parent_component->get_local_translate());
+	BOOST_CHECK(almost_equals(child_component->get_world_rotation(), parent_component->get_local_rotation()));
+
+	//Test child local moving and moving also the child world
+	child_component->add_local_translate({ 10, 10, 0 });
+	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(-10, -10, 10)));
+
+	//Test parent local moving and moving also the child world
+	parent_component->add_local_translate({ 10, 0, -10 });
+	auto a = child_component->get_world_translate();
+	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(0, -10, 0)));
+
+	//Test parent rotating
+	parent_component->add_local_rotation_degrees({ -180, -180, 0 });
+	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 0)));
+
+	//Test adding a super-parent and check if parent and child world are changed also.
+	auto super_parent = std::make_shared<Entity>();
+	auto super_parent_component = super_parent->attach<TransformComponent>();
+
+	super_parent_component->add(parent_component);
+	BOOST_CHECK(parent_component->is_dirty());
+	BOOST_CHECK(child_component->is_dirty());
+
+	super_parent_component->add_local_translate({ 0, 0, 10 });
+	BOOST_CHECK(almost_equals(parent_component->get_world_translate(), glm::vec3(10, 0, 10)));
+	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 10)));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

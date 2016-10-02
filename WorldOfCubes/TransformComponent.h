@@ -37,14 +37,14 @@ public:
 	const glm::vec3& get_local_scaling() { return m_local_transform.get_scaling(); }
 	glm::vec3 get_local_rotation_degrees() { return glm::degrees(glm::eulerAngles(get_local_rotation())); }
 
-	void set_local_translate(const glm::vec3& translate) { m_local_transform.set_translation(translate); m_dirty = true; }
-	void set_local_rotation(const glm::quat& rotation) { m_local_transform.set_rotation(rotation); m_dirty = true; }
-	void set_local_scaling(const glm::vec3& scaling) { m_local_transform.set_scaling(scaling); m_dirty = true; }
+	void set_local_translate(const glm::vec3& translate) { m_local_transform.set_translation(translate); set_dirty(); }
+	void set_local_rotation(const glm::quat& rotation) { m_local_transform.set_rotation(rotation); set_dirty();}
+	void set_local_scaling(const glm::vec3& scaling) { m_local_transform.set_scaling(scaling); set_dirty(); }
 	void set_local_rotation_degrees(const glm::vec3& rotation) { set_local_rotation(glm::radians(rotation)); }
 
-	void add_local_translate(const glm::vec3& translate) { m_local_transform.add_translation(translate); m_dirty = true; }
-	void add_local_rotation(const glm::quat& rotation) { m_local_transform.add_rotation(rotation); m_dirty = true; }
-	void add_local_scaling(const glm::vec3& scaling) { m_local_transform.add_scaling(scaling); m_dirty = true; }
+	void add_local_translate(const glm::vec3& translate) { m_local_transform.add_translation(translate); set_dirty(); }
+	void add_local_rotation(const glm::quat& rotation) { m_local_transform.add_rotation(rotation); set_dirty(); }
+	void add_local_scaling(const glm::vec3& scaling) { m_local_transform.add_scaling(scaling); set_dirty(); }
 	void add_local_rotation_degrees(const glm::vec3& rotation) { add_local_rotation(glm::radians(rotation)); }
 
 	const glm::vec3& get_world_translate() { check_world_transform_update(); return m_world_transform.get_translation(); }
@@ -61,6 +61,7 @@ private:
 
 	glm::mat4 m_model;
 
+	void set_dirty();
 	bool m_dirty;
 
 	std::vector<std::weak_ptr<TransformComponent>> m_children;
