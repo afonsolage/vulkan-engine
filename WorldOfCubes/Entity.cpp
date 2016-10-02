@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Entity.h"
-#include "AbstractComponent.h"
+#include "TransformComponent.h"
 
 Entity::Entity()
 {

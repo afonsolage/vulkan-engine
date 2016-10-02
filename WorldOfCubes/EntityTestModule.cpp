@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(component_test_generic, T, component_types)
 	}
 }
 
-BOOST_AUTO_TEST_CASE(transform_component_test)
+BOOST_AUTO_TEST_CASE(transform_component_children_test)
 {
 	auto entity = std::make_shared<Entity>();
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE(transform_component_test)
 	{
 		auto entity2 = std::make_shared<Entity>();
 		auto component2 = entity2->attach<TransformComponent>();
-		
+
 		component->add(component2);
 
 		BOOST_CHECK(component->get_child_count() == 1);
@@ -171,6 +171,47 @@ BOOST_AUTO_TEST_CASE(transform_component_test)
 		BOOST_CHECK(component2->exists(*child_component));
 		BOOST_CHECK(child_component->get_parent().lock()->get_uid() == component2->get_uid());
 	}
+}
+
+BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
+{
+	auto entity = std::make_shared<Entity>();
+	auto component = entity->attach<TransformComponent>();
+
+	//Test default values
+	BOOST_CHECK(component->get_local_translate() == glmc::vec3_zero);
+	BOOST_CHECK(component->get_local_scaling() == glmc::vec3_one);
+	BOOST_CHECK(component->get_local_rotation() == glm::quat(glmc::vec3_zero));
+
+	//Test simple translate
+	component->set_local_translate({ 10, 10, 10 });
+	BOOST_CHECK(component->get_local_translate() == glm::vec3(10, 10, 10));
+
+	//Test simple rotation
+	component->set_local_rotation_degrees({ 0, 10, 0 });
+
+	//Teste simple scaling
+	component->set_local_scaling({ 1.0f, 1.5f, 1.0f });
+	BOOST_CHECK(component->get_local_scaling() == glm::vec3(1.0f, 1.5f, 1.0f));
+
+	//Test combined translate
+	component->add_local_translate({ -5, 5, 20 });
+	BOOST_CHECK(component->get_local_translate() == glm::vec3(5, 15, 30));
+
+	//Test combined rotation
+	component->add_local_rotation_degrees({ 5, 10, 0 });
+	BOOST_CHECK(almost_equals<glm::quat>(component->get_local_rotation(), glm::quat(glm::radians(glm::vec3(0, 10, 0))) * glm::quat(glm::radians(glm::vec3(5, 10, 0)))));
+
+	//Test huge number of rotations
+	glm::quat control = component->get_local_rotation();
+	for (uint32_t i = 0; i < 10000; i++)
+	{
+		glm::vec3 euler(glm::linearRand(0.0f, glm::two_pi<float>()), glm::linearRand(0.0f, glm::two_pi<float>()), glm::linearRand(0.0f, glm::two_pi<float>()));
+		component->add_local_rotation(euler);
+		control *= glm::quat(euler);
+	}
+	BOOST_CHECK(almost_equals<glm::quat>(component->get_local_rotation(), control));
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

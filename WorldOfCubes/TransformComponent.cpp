@@ -20,14 +20,24 @@ TransformComponent::~TransformComponent()
 
 void TransformComponent::update()
 {
+
 }
 
 void TransformComponent::on_attach()
 {
+
 }
 
 void TransformComponent::on_detach()
 {
+
+}
+
+glm::mat4 TransformComponent::get_model()
+{
+	check_world_transform_update();
+
+	return m_model;
 }
 
 void TransformComponent::add(std::shared_ptr<TransformComponent>& child)
@@ -153,5 +163,54 @@ std::weak_ptr<TransformComponent> TransformComponent::find_child(const uint64_t&
 	else
 	{
 		return *it;
+	}
+}
+
+//Update world transform and apply parent transform, if not orphan
+void TransformComponent::update_world_transform()
+{
+	assert(!m_dirty);
+
+	m_dirty = false;
+	m_world_transform = m_local_transform;
+
+	if (!m_parent.expired())
+	{
+		auto parent = m_parent.lock();
+		m_world_transform.combine(parent->m_world_transform);
+	}
+}
+
+//Check if the world transform is dirty and update it if so.
+void TransformComponent::check_world_transform_update()
+{
+	if (!m_dirty)
+	{
+		return;
+	}
+
+	m_dirty = false;
+
+	if (m_parent.expired())
+	{
+		m_world_transform = m_local_transform;
+	}
+	else
+	{
+		std::shared_ptr<TransformComponent> ptr = m_parent.lock();
+		std::stack<std::shared_ptr<TransformComponent>> stack;
+
+		while (ptr && ptr->m_dirty)
+		{
+			stack.emplace(ptr);
+			ptr.swap(ptr->m_parent.lock());
+		}
+
+		while (!stack.empty())
+		{
+			ptr.swap(stack.top());
+			ptr->update_world_transform();
+			stack.pop();
+		}
 	}
 }

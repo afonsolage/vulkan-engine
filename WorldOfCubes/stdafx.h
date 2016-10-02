@@ -19,6 +19,8 @@
 #include <fstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <deque>
+#include <stack>
 
 #include "CommonUtils.h"
 #include "Logging.h"
