@@ -6,20 +6,25 @@
 #include "TestComponent.h"
 #include "CameraComponent.h"
 #include <boost/mpl/list.hpp>
+#include "Fixtures.h"
+#include "GameEngine.h"
 
-BOOST_AUTO_TEST_SUITE(entity_test_suite)
+BOOST_FIXTURE_TEST_SUITE(entity_test_suite, BasicAppFixture)
 
 BOOST_AUTO_TEST_CASE(entity_test)
 {
-	//Check exception when using a entity without a shared pointer.
-	{
-		Entity to_fail_entity;
+	////Check exception when using a entity without a shared pointer.
+	//{
+	//	Entity to_fail_entity;
 
-		BOOST_CHECK_THROW(to_fail_entity.attach<MeshComponent>(), std::bad_weak_ptr);
-	}
+	//	BOOST_CHECK_THROW(to_fail_entity.attach<MeshComponent>(), std::bad_weak_ptr);
+	//}
 
-	auto entity = std::make_shared<Entity>();
-	auto entity2 = std::make_shared<Entity>();
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
+	auto entity = engine->create_entity();
+	auto entity2 = engine->create_entity();
 
 	auto uid = entity->get_uid();
 
@@ -50,9 +55,12 @@ typedef boost::mpl::list<TestComponent, MeshComponent, TransformComponent> compo
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(component_test_generic, T, component_types)
 {
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
 	//Test a simple usage.
 	{
-		auto entity = std::make_shared<Entity>();
+		auto entity = engine->create_entity();
 
 		auto component = entity->attach<T>();
 		component->update();
@@ -62,7 +70,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(component_test_generic, T, component_types)
 
 	//Test a replacement usage
 	{
-		auto entity = std::make_shared<Entity>();
+		auto entity = engine->create_entity();
 
 		auto component = entity->attach<T>();
 		auto sp_component = entity->get_component<T>().lock();
@@ -91,13 +99,16 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(component_test_generic, T, component_types)
 
 BOOST_AUTO_TEST_CASE(transform_component_children_test)
 {
-	auto entity = std::make_shared<Entity>();
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
+	auto entity = engine->create_entity();
 
 	auto component = entity->attach<TransformComponent>();
 	uint64_t removed_uid;
 	//Test valid transform child insertion
 	{
-		auto entity2 = std::make_shared<Entity>();
+		auto entity2 = engine->create_entity();
 		auto component2 = entity2->attach<TransformComponent>();
 
 		component->add(component2);
@@ -112,7 +123,7 @@ BOOST_AUTO_TEST_CASE(transform_component_children_test)
 		BOOST_CHECK(component->get_child_count() == 0);
 	}
 
-	auto child = std::make_shared<Entity>();
+	auto child = engine->create_entity();
 	auto child_component = child->attach<TransformComponent>();
 
 	//Test exists method
@@ -147,7 +158,7 @@ BOOST_AUTO_TEST_CASE(transform_component_children_test)
 	child_component.reset();
 	//Test dual addition (parent -> child -> parent)
 	{
-		child = std::make_shared<Entity>();
+		child = engine->create_entity();
 		child_component = child->attach<TransformComponent>();
 
 		component->add(child_component);
@@ -159,10 +170,10 @@ BOOST_AUTO_TEST_CASE(transform_component_children_test)
 
 	//Test auto remove when adding to a new parent
 	{
-		child = std::make_shared<Entity>();
+		child = engine->create_entity();
 		child_component = child->attach<TransformComponent>();
 
-		auto entity2 = std::make_shared<Entity>();
+		auto entity2 = engine->create_entity();
 		auto component2 = entity2->attach<TransformComponent>();
 
 		component->add(child_component);
@@ -176,7 +187,10 @@ BOOST_AUTO_TEST_CASE(transform_component_children_test)
 
 BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
 {
-	auto entity = std::make_shared<Entity>();
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
+	auto entity = engine->create_entity();
 	auto component = entity->attach<TransformComponent>();
 
 	//Test default values
@@ -222,7 +236,10 @@ BOOST_AUTO_TEST_CASE(transform_component_local_translate_test)
 
 BOOST_AUTO_TEST_CASE(transform_component_world_translate_test)
 {
-	auto parent = std::make_shared<Entity>();
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
+	auto parent = engine->create_entity();
 	auto parent_component = parent->attach<TransformComponent>();
 
 	parent_component->add_local_translate({ 0, 0, 10 });
@@ -238,7 +255,7 @@ BOOST_AUTO_TEST_CASE(transform_component_world_translate_test)
 	//Test dirty flag again
 	BOOST_CHECK(!parent_component->is_dirty());
 
-	auto child = std::make_shared<Entity>();
+	auto child = engine->create_entity();
 	auto child_component = child->attach<TransformComponent>();
 
 	parent_component->add(child_component);
@@ -261,22 +278,33 @@ BOOST_AUTO_TEST_CASE(transform_component_world_translate_test)
 	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 0)));
 
 	//Test adding a super-parent and check if parent and child world are changed also.
-	auto super_parent = std::make_shared<Entity>();
-	auto super_parent_component = super_parent->attach<TransformComponent>();
+	{
+		auto super_parent = engine->create_entity();
+		auto super_parent_component = super_parent->attach<TransformComponent>();
 
-	super_parent_component->add(parent_component);
-	BOOST_CHECK(parent_component->is_dirty());
-	BOOST_CHECK(child_component->is_dirty());
+		super_parent_component->add(parent_component);
+		BOOST_CHECK(parent_component->is_dirty());
+		BOOST_CHECK(child_component->is_dirty());
 
-	super_parent_component->add_local_translate({ 0, 0, 10 });
-	BOOST_CHECK(almost_equals(parent_component->get_world_translate(), glm::vec3(10, 0, 10)));
-	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 10)));
+		super_parent_component->add_local_translate({ 0, 0, 10 });
+		BOOST_CHECK(almost_equals(parent_component->get_world_translate(), glm::vec3(10, 0, 10)));
+		BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 10)));
+	}
+
+	//Test removing super-parent and check if parent and child revert back to previous world position.
+	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 0)));
+	BOOST_CHECK(almost_equals(parent_component->get_world_translate(), glm::vec3(10, 0, 0)));
 }
 
 BOOST_AUTO_TEST_CASE(camera_component_test)
 {
-	auto entity = std::make_shared<Entity>();
+	auto engine = m_engine.lock();
+	BOOST_CHECK(engine);
+
+	auto entity = engine->create_entity();
 	
+	BOOST_CHECK_THROW(entity->attach<CameraComponent>(), std::invalid_argument);
+	entity->attach<TransformComponent>();
 	BOOST_CHECK_THROW(entity->attach<CameraComponent>(), std::invalid_argument);
 	entity->attach<TransformComponent>(true);
 	auto camera = entity->attach<CameraComponent>();

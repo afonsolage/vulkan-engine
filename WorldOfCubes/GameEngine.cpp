@@ -3,6 +3,7 @@
 #include "WindowSystem.h"
 #include "GraphicsSystem.h"
 #include "FileSystem.h"
+#include "Entity.h"
 
 GameEngine::GameEngine(std::string app_name, uint32_t app_version)
 	: m_app_name(app_name)
@@ -47,4 +48,9 @@ bool GameEngine::is_running()
 #else
 	return m_running && !m_window_system->close_requested();
 #endif
+}
+
+std::shared_ptr<Entity> GameEngine::create_entity()
+{
+	return Entity::create(shared_from_this());
 }

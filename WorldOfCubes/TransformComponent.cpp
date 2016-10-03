@@ -17,6 +17,18 @@ TransformComponent::~TransformComponent()
 	{
 		parent->remove(m_uid);
 	}
+
+	std::shared_ptr<TransformComponent> s_ptr;
+	for (const auto& w_ptr : m_children)
+	{
+		s_ptr.swap(w_ptr.lock());
+
+		if (s_ptr)
+		{
+			s_ptr->m_parent.reset();
+			s_ptr->set_dirty();
+		}
+	}
 }
 
 void TransformComponent::update()

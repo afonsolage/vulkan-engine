@@ -10,6 +10,7 @@ struct BasicAppFixture
 	{
 		m_application = std::make_shared<Application>();
 		m_application->init();
+		m_engine = m_application->get_engine();
 	}
 
 	virtual ~BasicAppFixture()
@@ -23,6 +24,7 @@ struct BasicAppFixture
 	}
 
 	std::shared_ptr<Application> m_application;
+	std::weak_ptr<GameEngine> m_engine;
 };
 
 struct TestAppFixture : BasicAppFixture

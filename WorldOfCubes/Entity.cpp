@@ -2,11 +2,11 @@
 #include "Entity.h"
 #include "TransformComponent.h"
 
-Entity::Entity()
+Entity::Entity(const private_ctor& ctor)
+	: m_engine(ctor.engine)
 {
 	generate_uid(typeid(Entity));
 }
-
 
 Entity::~Entity()
 {
@@ -30,4 +30,9 @@ bool Entity::is_component_attached(const type_info* pinfo)
 		}
 	}
 	return false;
+}
+
+std::shared_ptr<Entity> Entity::create(std::shared_ptr<GameEngine>& engine)
+{
+	return std::make_shared<Entity>(private_ctor(engine));
 }

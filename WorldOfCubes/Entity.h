@@ -3,13 +3,26 @@
 #include "UniqueIdentified.h"
 
 class AbstractComponent;
+class GameEngine;
 
-class Entity 
+class Entity
 	: public std::enable_shared_from_this<Entity>
 	, public UniqueIdentified
 {
+private:
+	friend GameEngine;
+	struct private_ctor 
+	{
+		std::shared_ptr<GameEngine> engine;
+		explicit private_ctor(std::shared_ptr<GameEngine> engine) : engine(engine) {}
+	};
+	static std::shared_ptr<Entity> create(std::shared_ptr<GameEngine>& engine);
+
 public:
-	Entity();
+	explicit Entity(const private_ctor&);
+	Entity() = delete;
+	Entity(const Entity& other) = delete;
+
 	virtual ~Entity();
 
 	void update();
@@ -21,10 +34,13 @@ public:
 	template<typename T>
 	std::weak_ptr<T> get_component();
 
+	std::weak_ptr<GameEngine> get_engine() { return m_engine; }
+
 	bool is_component_attached(const type_info* pinfo);
 
 private:
 	std::vector<std::shared_ptr<AbstractComponent>> m_components;
+	std::weak_ptr<GameEngine> m_engine;
 };
 
 template<typename T, typename... Args>

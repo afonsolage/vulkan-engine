@@ -6,6 +6,7 @@
 class WindowSystem;
 class GraphicsSystem;
 class FileSystem;
+class Entity;
 
 class GameEngine : public std::enable_shared_from_this<GameEngine>
 {
@@ -33,6 +34,8 @@ public:
 
 	uint32_t get_window_width() const { return m_window_size.x; };
 	uint32_t get_window_height() const { return m_window_size.y; };
+
+	std::shared_ptr<Entity> create_entity();
 
 private:
 

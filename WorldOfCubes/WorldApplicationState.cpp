@@ -37,24 +37,6 @@ void WorldApplicationState::on_initialized()
 	auto material = graphics_system->get_material<ColoredMaterial>().lock();
 	auto ppl = material->get_pipeline();
 
-	Entity entity;
-
-	auto& mesh_component = entity.attach<MeshComponent>();
-
-	auto component = entity.get_component<MeshComponent>().lock();
-
-	if (component)
-	{
-		component->update();
-	}
-	else
-	{
-		LOG_DEBUG("DA FUK?");
-	}
-
-	auto ptr = entity.detach<MeshComponent>();
-
-	ptr->update();
 }
 
 void WorldApplicationState::on_updated(float delta)
