@@ -24,6 +24,9 @@ protected:
 
 	virtual void on_attach() = 0;
 	virtual void on_detach() = 0;
+	
+	virtual std::vector<const type_info*> get_required_components();
+	virtual bool check_required_components();
 
 	std::weak_ptr<Entity> m_entity;
 

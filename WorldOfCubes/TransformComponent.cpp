@@ -2,8 +2,9 @@
 #include "TransformComponent.h"
 #include "Entity.h"
 
-TransformComponent::TransformComponent()
+TransformComponent::TransformComponent(bool is_camera_transform)
 	: m_dirty(true)
+	, m_camera_transform(is_camera_transform)
 {
 
 }
@@ -178,6 +179,8 @@ void TransformComponent::update_world_transform()
 		auto parent = m_parent.lock();
 		m_world_transform.combine(parent->m_world_transform);
 	}
+
+	m_model = (m_camera_transform) ? m_world_transform.to_view() : m_world_transform.to_model();
 }
 
 void TransformComponent::set_dirty()
@@ -203,13 +206,7 @@ void TransformComponent::check_world_transform_update()
 		return;
 	}
 
-	m_dirty = false;
-
-	if (m_parent.expired())
-	{
-		m_world_transform = m_local_transform;
-	}
-	else
+	if (!m_parent.expired())
 	{
 		std::shared_ptr<TransformComponent> ptr = m_parent.lock();
 		std::stack<std::shared_ptr<TransformComponent>> stack;
@@ -226,7 +223,7 @@ void TransformComponent::check_world_transform_update()
 			ptr->update_world_transform();
 			stack.pop();
 		}
-
-		update_world_transform();
 	}
+
+	update_world_transform();
 }

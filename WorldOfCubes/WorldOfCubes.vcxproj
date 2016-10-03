@@ -220,7 +220,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractApplicationState.h" />
     <ClInclude Include="AbstractComponent.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ColoredMaterial.h" />
     <ClInclude Include="CommonUtils.h" />
     <ClInclude Include="Context.h" />
@@ -252,7 +252,7 @@
     <ClCompile Include="AbstractApplicationState.cpp" />
     <ClCompile Include="AbstractComponent.cpp" />
     <ClCompile Include="ApplicationStateTestModule.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ColoredMaterial.cpp" />
     <ClCompile Include="CommonUtils.cpp" />
     <ClCompile Include="Context.cpp" />

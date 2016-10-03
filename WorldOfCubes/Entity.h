@@ -21,6 +21,8 @@ public:
 	template<typename T>
 	std::weak_ptr<T> get_component();
 
+	bool is_component_attached(const type_info* pinfo);
+
 private:
 	std::vector<std::shared_ptr<AbstractComponent>> m_components;
 };

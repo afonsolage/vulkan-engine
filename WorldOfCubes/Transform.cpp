@@ -41,8 +41,14 @@ void Transform::combine(const Transform& transform)
 	m_translation = transform.get_translation() + transform.get_rotation() * transform.get_scaling() * m_translation;
 }
 
-glm::mat4 Transform::to_mat4() const noexcept
+glm::mat4 Transform::to_model() const noexcept
 {
 	//Scale, rotate and than translate
 	return glm::translate(glm::scale(glm::mat4x4(), m_scaling) * glm::mat4_cast(m_rotation), m_translation);
+}
+
+glm::mat4 Transform::to_view() const noexcept
+{
+	//inverse translate than rotate
+	return glm::translate(glm::mat4_cast(m_rotation), -m_translation);
 }

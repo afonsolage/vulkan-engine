@@ -19,3 +19,15 @@ void Entity::update()
 		component->update();
 	}
 }
+
+bool Entity::is_component_attached(const type_info* pinfo)
+{
+	for (const auto& s_ptr : m_components)
+	{
+		if (typeid(*s_ptr) == *pinfo)
+		{
+			return true;
+		}
+	}
+	return false;
+}

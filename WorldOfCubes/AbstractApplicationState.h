@@ -1,7 +1,7 @@
 #pragma once
 
 class Application;
-class Camera;
+class CameraComponent;
 class GameEngine;
 
 class AbstractApplicationState

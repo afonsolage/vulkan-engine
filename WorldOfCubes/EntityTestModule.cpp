@@ -4,6 +4,7 @@
 #include "MeshComponent.h"
 #include "TransformComponent.h"
 #include "TestComponent.h"
+#include "CameraComponent.h"
 #include <boost/mpl/list.hpp>
 
 BOOST_AUTO_TEST_SUITE(entity_test_suite)
@@ -270,6 +271,16 @@ BOOST_AUTO_TEST_CASE(transform_component_world_translate_test)
 	super_parent_component->add_local_translate({ 0, 0, 10 });
 	BOOST_CHECK(almost_equals(parent_component->get_world_translate(), glm::vec3(10, 0, 10)));
 	BOOST_CHECK(almost_equals(child_component->get_world_translate(), glm::vec3(20, 10, 10)));
+}
+
+BOOST_AUTO_TEST_CASE(camera_component_test)
+{
+	auto entity = std::make_shared<Entity>();
+	
+	BOOST_CHECK_THROW(entity->attach<CameraComponent>(), std::invalid_argument);
+	entity->attach<TransformComponent>(true);
+	auto camera = entity->attach<CameraComponent>();
+	BOOST_CHECK(camera);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

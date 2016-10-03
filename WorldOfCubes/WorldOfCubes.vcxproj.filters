@@ -102,9 +102,6 @@
     <ClInclude Include="Logging.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -153,6 +150,9 @@
     <ClInclude Include="Transform.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Engine\Entity\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="Logging.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Engine\Object</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Application</Filter>
@@ -244,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Engine\Entity\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

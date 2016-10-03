@@ -24,8 +24,8 @@ public:
 	void add_rotation(const glm::quat& rotation) { m_rotation *= rotation; }
 	void add_scaling(const glm::vec3& scaling) { m_scaling *= scaling; }
 
-	glm::mat4 to_mat4() const noexcept;
-
+	glm::mat4 to_model() const noexcept;
+	glm::mat4 to_view() const noexcept;
 private:
 	glm::vec3 m_translation;
 	glm::quat m_rotation;

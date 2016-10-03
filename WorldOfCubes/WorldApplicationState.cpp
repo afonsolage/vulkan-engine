@@ -2,7 +2,6 @@
 #include "WorldApplicationState.h"
 #include "Application.h"
 #include "GameEngine.h"
-#include "Camera.h"
 #include "GraphicsSystem.h"
 #include "ColoredMaterial.h"
 #include "Entity.h"
@@ -20,7 +19,7 @@ WorldApplicationState::WorldApplicationState(std::shared_ptr<Application> applic
 
 	m_graphics_system = engine->get_graphics_sytem();
 
-	m_main_camera = std::make_shared<Camera>(m_graphics_system.lock());
+	//m_main_camera = std::make_shared<CameraComponent>(m_graphics_system.lock());
 }
 
 WorldApplicationState::~WorldApplicationState()
@@ -31,7 +30,7 @@ void WorldApplicationState::on_initialized()
 {
 	LOG_INFO("Initializing World Application State");
 
-	m_main_camera->setup_projection(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
+	//m_main_camera->setup_projection(45.0f, 800.0f / 600.0f, 1.0f, 10.0f);
 
 	SAFE_GET(graphics_system, m_graphics_system);
 
