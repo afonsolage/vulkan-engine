@@ -17,10 +17,12 @@
 #include <algorithm>
 #include <set>
 #include <fstream>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <deque>
 #include <stack>
+#include <typeindex>
 
 #include "CommonUtils.h"
 #include "Logging.h"

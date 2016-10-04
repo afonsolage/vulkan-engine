@@ -12,12 +12,16 @@ Entity::~Entity()
 {
 }
 
-void Entity::update()
+std::vector<std::weak_ptr<AbstractComponent>> Entity::get_all_components()
 {
+	std::vector<std::weak_ptr<AbstractComponent>> result;
+
 	for (const auto& component : m_components)
 	{
-		component->update();
+		result.emplace_back(component);
 	}
+
+	return result;
 }
 
 bool Entity::is_component_attached(const type_info* pinfo)

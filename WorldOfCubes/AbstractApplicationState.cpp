@@ -17,16 +17,32 @@ AbstractApplicationState::~AbstractApplicationState()
 
 void AbstractApplicationState::initialize()
 {
+	if (m_terminated)
+	{
+		return;
+	}
+
 	on_initialized();
 }
 
 void AbstractApplicationState::update(float delta)
 {
+	if (m_terminated)
+	{
+		return;
+	}
+
 	on_updated(delta);
 }
 
 void AbstractApplicationState::terminate()
 {
-	on_terminated();
+	if (m_terminated)
+	{
+		return;
+	}
+
 	m_terminated = true;
+	on_terminated();
+
 }

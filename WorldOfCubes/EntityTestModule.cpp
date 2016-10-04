@@ -19,6 +19,7 @@ BOOST_AUTO_TEST_CASE(entity_test)
 
 	//	BOOST_CHECK_THROW(to_fail_entity.attach<MeshComponent>(), std::bad_weak_ptr);
 	//}
+	
 
 	auto engine = m_engine.lock();
 	BOOST_CHECK(engine);
@@ -175,7 +176,7 @@ BOOST_AUTO_TEST_CASE(transform_component_children_test)
 
 		auto entity2 = engine->create_entity();
 		auto component2 = entity2->attach<TransformComponent>();
-
+		
 		component->add(child_component);
 		component2->add(child_component);
 
@@ -309,6 +310,12 @@ BOOST_AUTO_TEST_CASE(camera_component_test)
 	entity->attach<TransformComponent>(true);
 	auto camera = entity->attach<CameraComponent>();
 	BOOST_CHECK(camera);
+
+	auto transform = entity->get_component<TransformComponent>();
+	auto camera2 = entity->get_component<CameraComponent>();
+
+	transform.lock()->add_local_translate({ 10, 10, 10 });
+	camera2.lock()->get_view();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

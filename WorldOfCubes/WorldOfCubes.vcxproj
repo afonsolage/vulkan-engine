@@ -131,8 +131,7 @@
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>$(SolutionDir)Test\$(TargetName)$(TargetExt)</Command>
       <Message>
       </Message>
     </PostBuildEvent>
@@ -157,8 +156,7 @@
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>$(SolutionDir)Test\$(TargetName)$(TargetExt)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -234,6 +232,7 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MeshObject.h" />
+    <ClInclude Include="NullApplicationState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderSystem.h" />
     <ClInclude Include="stdafx.h" />
@@ -266,6 +265,7 @@
     <ClCompile Include="MainTestUnit.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MeshObject.cpp" />
+    <ClCompile Include="NullApplicationState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderSystem.cpp" />
     <ClCompile Include="stdafx.cpp">

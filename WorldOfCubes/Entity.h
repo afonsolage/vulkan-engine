@@ -25,14 +25,14 @@ public:
 
 	virtual ~Entity();
 
-	void update();
-
 	template<typename T, typename... Args>
 	std::shared_ptr<T> attach(Args&&... args);
 	template<typename T>
 	std::shared_ptr<T> detach();
 	template<typename T>
 	std::weak_ptr<T> get_component();
+
+	std::vector<std::weak_ptr<AbstractComponent>> get_all_components();
 
 	std::weak_ptr<GameEngine> get_engine() { return m_engine; }
 

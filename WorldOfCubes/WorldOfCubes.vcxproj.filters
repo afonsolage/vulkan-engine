@@ -40,12 +40,6 @@
     <Filter Include="Engine\Graphics\Material">
       <UniqueIdentifier>{301f54bb-5601-441d-981b-7da761cdbe40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Entity">
-      <UniqueIdentifier>{f813b7ac-6772-4f6b-aa58-b2ecd5e1b218}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Entity\Component">
-      <UniqueIdentifier>{8487d5ad-2c4d-4ca1-9ad1-3e25a9fb449c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Test">
       <UniqueIdentifier>{e8c37a36-904b-4e68-a059-6d93769286c6}</UniqueIdentifier>
     </Filter>
@@ -63,6 +57,15 @@
     </Filter>
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{b155a627-6226-48a8-abe4-ab003e4c1784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{754f74dd-e1f8-4cb1-8adc-dd16e41c88b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Entity">
+      <UniqueIdentifier>{f813b7ac-6772-4f6b-aa58-b2ecd5e1b218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Entity\Component">
+      <UniqueIdentifier>{8487d5ad-2c4d-4ca1-9ad1-3e25a9fb449c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -120,20 +123,17 @@
     <ClInclude Include="BaseGraphicsPipeline.h">
       <Filter>Engine\Graphics\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Engine\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Engine\Entity</Filter>
+      <Filter>Engine\Scene\Entity</Filter>
     </ClInclude>
     <ClInclude Include="AbstractComponent.h">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClInclude>
     <ClInclude Include="MeshComponent.h">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClInclude>
     <ClInclude Include="TestComponent.h">
       <Filter>Test\Entity\Model</Filter>
@@ -151,7 +151,13 @@
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="NullApplicationState.h">
+      <Filter>Test\ApplicationState\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,29 +215,20 @@
     <ClCompile Include="BaseGraphicsPipeline.cpp">
       <Filter>Engine\Graphics\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Engine\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Engine\Entity</Filter>
+      <Filter>Engine\Scene\Entity</Filter>
     </ClCompile>
     <ClCompile Include="AbstractComponent.cpp">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="MeshComponent.cpp">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
     </ClCompile>
     <ClCompile Include="TestComponent.cpp">
       <Filter>Test\Entity\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityTestModule.cpp">
-      <Filter>Test\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationStateTestModule.cpp">
-      <Filter>Test\ApplicationState</Filter>
     </ClCompile>
     <ClCompile Include="TestApplicationState.cpp">
       <Filter>Test\ApplicationState\Model</Filter>
@@ -243,7 +240,19 @@
       <Filter>Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Engine\Entity\Component</Filter>
+      <Filter>Engine\Scene\Entity\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityTestModule.cpp">
+      <Filter>Test\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationStateTestModule.cpp">
+      <Filter>Test\ApplicationState</Filter>
+    </ClCompile>
+    <ClCompile Include="NullApplicationState.cpp">
+      <Filter>Test\ApplicationState\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
