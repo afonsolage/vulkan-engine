@@ -36,11 +36,9 @@ void Scene::update()
 {
 	remove_dead_entities();
 
-	std::shared_ptr<Entity> s_ptr;
-
 	for (const auto& entity : m_entities)
 	{
-		s_ptr.swap(entity.lock());
+		auto s_ptr = entity.lock();
 		if (s_ptr)
 		{
 			s_ptr->update();

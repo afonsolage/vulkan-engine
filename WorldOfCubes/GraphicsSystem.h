@@ -8,6 +8,7 @@ class BaseGraphicsPipeline;
 class ShaderSystem;
 class type_info;
 class Scene;
+class AbstractMaterial;
 
 class GraphicsSystem : public std::enable_shared_from_this<GraphicsSystem>
 {
@@ -26,7 +27,7 @@ public:
 	std::weak_ptr<BaseGraphicsPipeline> get_base_pipeline() { return m_base_pipeline; }
 
 	template<typename T>
-	std::weak_ptr<T> get_material();
+	std::weak_ptr<const T> get_material();
 
 	uint32_t get_window_width() const;
 	uint32_t get_window_height() const;
@@ -43,16 +44,16 @@ private:
 	//Non-owner objects
 	std::weak_ptr<GameEngine> m_engine;
 
-	std::unordered_map<const type_info*, std::shared_ptr<void>> m_material_map;
+	std::unordered_map<const type_info*, std::shared_ptr<const AbstractMaterial>> m_material_map;
 };
 
 template<typename T>
-inline std::weak_ptr<T> GraphicsSystem::get_material()
+inline std::weak_ptr<const T> GraphicsSystem::get_material()
 {
 	auto it = m_material_map.find(&typeid(T));
 
 	if (it == m_material_map.end())
-		return std::weak_ptr<T>();
+		return std::weak_ptr<const T>();
 	else
-		return std::static_pointer_cast<T>(it->second);
+		return std::static_pointer_cast<const T>(it->second);
 }

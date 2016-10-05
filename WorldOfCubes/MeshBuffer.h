@@ -29,6 +29,8 @@ enum class MeshBufferElementCount
 class MeshBuffer
 {
 private:
+	friend class ShaderSystem;
+
 	struct MeshBufferElement
 	{
 		MeshBufferElement(uint32_t location, MeshBufferElementFormat format, MeshBufferElementBits element_bytes, MeshBufferElementCount element_count);
@@ -41,20 +43,25 @@ private:
 		size_t m_offset;
 	};
 public:
-
 	MeshBuffer();
 	MeshBuffer(const MeshBuffer& other);
 
 	virtual ~MeshBuffer();
 
 	uint32_t add_buffer_element(MeshBufferElementFormat format, MeshBufferElementBits element_size, MeshBufferElementCount element_count);
+	void initialize();
 
 	template<typename T>
 	uint32_t set_buffer(uint32_t location, const std::vector<T>& buffer);
 
-	void initialize();
+	const std::vector<char>& get() const { return m_buffer; }
+	uint32_t get_stride() const noexcept { return m_per_vertex_size; }
 
-	const std::vector<char>& get_buffer() const { return m_buffer; }
+	inline bool is_initialized() const noexcept { return m_initialized; }
+
+	const std::vector<MeshBufferElement>::const_iterator begin() const { return m_buffer_elements.begin(); }
+	const std::vector<MeshBufferElement>::const_iterator end() const { return m_buffer_elements.end(); }
+
 private:
 
 	const MeshBufferElement& get_element(uint32_t location);

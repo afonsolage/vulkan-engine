@@ -3,11 +3,18 @@
 #include <boost/mpl/list.hpp>
 #include "Fixtures.h"
 #include "MeshBuffer.h"
+#include "GraphicsSystem.h"
+#include "ShaderSystem.h"
 
-BOOST_AUTO_TEST_SUITE(mesh_test_suite)
+BOOST_FIXTURE_TEST_SUITE(mesh_test_suite, BasicAppFixture)
 
 BOOST_AUTO_TEST_CASE(mesh_buffer_test)
 {
+	SAFE_GET(engine, m_engine);
+	SAFE_GET(graphics_system, engine->get_graphics_sytem());
+	SAFE_GET(shader_system, graphics_system->get_shader_system());
+	
+
 	//Test normal use case of buffer.
 	{
 		MeshBuffer buffer;

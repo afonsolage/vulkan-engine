@@ -23,6 +23,25 @@ struct ShaderInfo
 	{
 		return (bool)m_module;
 	}
+	inline bool is_valid() const noexcept
+	{
+		return !m_name.empty();
+	}
+	inline bool is_buffer_available() const noexcept
+	{
+		return m_buffer.is_initialized();
+	}
+
+	inline vk::PipelineShaderStageCreateInfo get_shader_create_info() const noexcept
+	{
+		if (!is_loaded())
+		{
+			LOG_WARN("Trying to generate a shader stage create info from a non-loaded shader.");
+		}
+		return{ vk::PipelineShaderStageCreateFlags(), m_type, m_module, m_entry.c_str() };
+	}
+
+	ShaderInfo() {};
 
 	ShaderInfo(std::string&& name, vk::ShaderStageFlagBits&& type, std::string&& entry) : m_name(name), m_type(type), m_entry(entry) {}
 	ShaderInfo(const std::string& name, const vk::ShaderStageFlagBits& type, const std::string& entry) : m_name(name), m_type(type), m_entry(entry) {}
@@ -49,11 +68,13 @@ public:
 
 	void init();
 
-	std::vector<vk::PipelineShaderStageCreateInfo> get_shader_create_info(std::vector<ShaderSystem::Shader> shaders);
+	std::shared_ptr<ShaderInfo>& get_shader_info(ShaderSystem::Shader shader, bool load_module = true);
 
+	static std::vector<vk::VertexInputAttributeDescription> get_mesh_buffer_attribute_description(const MeshBuffer& buffer);
+	static vk::VertexInputBindingDescription get_mesh_buffer_binding_description(const MeshBuffer& buffer);
 
 private:
-	const ShaderInfo& get_shader_info(ShaderSystem::Shader shader, bool load_module = true);
+	static vk::Format get_element_format(const MeshBuffer::MeshBufferElement& element);
 
 	void load_shader_module(ShaderInfo& shader_info);
 
@@ -61,7 +82,7 @@ private:
 	std::weak_ptr<FileSystem> m_file_system;
 	std::weak_ptr<Context> m_context;
 
-	std::unordered_map<ShaderSystem::Shader, ShaderInfo> m_shader_module_map;
+	std::unordered_map<ShaderSystem::Shader, std::shared_ptr<ShaderInfo>> m_shader_module_map;
 
 	void parse_shader_input(ShaderInfo& shader, const ptree& input);
 
@@ -84,4 +105,3 @@ private:
 		{ "fragment", vk::ShaderStageFlagBits::eFragment },
 	};
 };
-

@@ -47,5 +47,6 @@ void Application::change_state()
 template<typename T>
 inline bool Application::is_state()
 {
-	return typeid(*m_state) == typeid(T);
+	auto& t = *m_state;
+	return typeid(t) == typeid(T);
 }

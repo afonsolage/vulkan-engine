@@ -162,6 +162,9 @@
     <ClInclude Include="MeshBuffer.h">
       <Filter>Engine\Object</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractMaterial.h">
+      <Filter>Engine\Graphics\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,12 +263,18 @@
     <ClCompile Include="MeshTestModule.cpp">
       <Filter>Test\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="AbstractMaterial.cpp">
+      <Filter>Engine\Graphics\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shader\Colored.frag">
       <Filter>Engine\Graphics\Shader\Source</Filter>
     </None>
     <None Include="..\assets\shader\Colored.vert">
+      <Filter>Engine\Graphics\Shader\Source</Filter>
+    </None>
+    <None Include="..\assets\shader\shader.info">
       <Filter>Engine\Graphics\Shader\Source</Filter>
     </None>
   </ItemGroup>

@@ -38,7 +38,7 @@ void GraphicsSystem::init()
 
 void GraphicsSystem::init_materials()
 {
-	m_material_map.insert({&typeid(ColoredMaterial), std::make_shared<ColoredMaterial>(shared_from_this())});
+	m_material_map.insert({&typeid(ColoredMaterial), std::make_shared<const ColoredMaterial>(shared_from_this())});
 }
 
 uint32_t GraphicsSystem::get_window_width() const

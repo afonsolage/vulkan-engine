@@ -18,10 +18,9 @@ TransformComponent::~TransformComponent()
 		parent->remove(m_uid);
 	}
 
-	std::shared_ptr<TransformComponent> s_ptr;
 	for (const auto& w_ptr : m_children)
 	{
-		s_ptr.swap(w_ptr.lock());
+		auto s_ptr = w_ptr.lock();
 
 		if (s_ptr)
 		{
@@ -198,10 +197,10 @@ void TransformComponent::update_world_transform()
 void TransformComponent::set_dirty()
 {
 	m_dirty = true;
-	std::shared_ptr<TransformComponent> s_ptr;
+	
 	for (const auto& w_ptr : m_children)
 	{
-		s_ptr.swap(w_ptr.lock());
+		auto s_ptr = w_ptr.lock();
 
 		if (s_ptr && !s_ptr->is_dirty())
 		{
@@ -220,13 +219,13 @@ void TransformComponent::check_world_transform_update()
 
 	if (!m_parent.expired())
 	{
-		std::shared_ptr<TransformComponent> ptr = m_parent.lock();
+		auto ptr = m_parent.lock();
 		std::stack<std::shared_ptr<TransformComponent>> stack;
 
 		while (ptr && ptr->m_dirty)
 		{
 			stack.emplace(ptr);
-			ptr.swap(ptr->m_parent.lock());
+			ptr = ptr->m_parent.lock();
 		}
 
 		while (!stack.empty())

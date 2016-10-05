@@ -122,6 +122,17 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Lib\glfw-3.2.1.bin.WIN32\include;..\..\Lib\glm;..\..\Lib\boost_1_61_0;..\..\Lib\VulkanSDK\1.0.26.0\Include</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>
+      </RuntimeTypeInfo>
+      <MSExtensions>true</MSExtensions>
+      <EnforceTypeConversionRules>
+      </EnforceTypeConversionRules>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <OpenMPSupport>
+      </OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -218,6 +229,7 @@
   <ItemGroup>
     <ClInclude Include="AbstractApplicationState.h" />
     <ClInclude Include="AbstractComponent.h" />
+    <ClInclude Include="AbstractMaterial.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ColoredMaterial.h" />
     <ClInclude Include="CommonUtils.h" />
@@ -250,6 +262,7 @@
   <ItemGroup>
     <ClCompile Include="AbstractApplicationState.cpp" />
     <ClCompile Include="AbstractComponent.cpp" />
+    <ClCompile Include="AbstractMaterial.cpp" />
     <ClCompile Include="ApplicationStateTestModule.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ColoredMaterial.cpp" />
@@ -291,6 +304,7 @@
   <ItemGroup>
     <None Include="..\assets\shader\Colored.frag" />
     <None Include="..\assets\shader\Colored.vert" />
+    <None Include="..\assets\shader\shader.info" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

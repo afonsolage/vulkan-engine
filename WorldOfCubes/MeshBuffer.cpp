@@ -49,7 +49,7 @@ void MeshBuffer::initialize()
 
 const MeshBuffer::MeshBufferElement& MeshBuffer::get_element(uint32_t location)
 {
-	auto it = std::find_if(begin(m_buffer_elements), end(m_buffer_elements), [&location](const auto& element)
+	auto it = std::find_if(std::begin(m_buffer_elements), std::end(m_buffer_elements), [&location](const auto& element)
 	{
 		return element.m_location == location;
 	});

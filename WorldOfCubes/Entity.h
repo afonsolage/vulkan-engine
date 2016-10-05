@@ -17,7 +17,7 @@ private:
 		std::shared_ptr<GameEngine> engine;
 		explicit private_ctor(std::shared_ptr<GameEngine> engine) : engine(engine) {}
 	};
-	static std::shared_ptr<Entity> create(std::shared_ptr<GameEngine>& engine);
+	static std::shared_ptr<Entity> create(std::shared_ptr<GameEngine>&& engine);
 
 public:
 	explicit Entity(const private_ctor&);

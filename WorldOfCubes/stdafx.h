@@ -38,17 +38,21 @@ using namespace std::chrono_literals;
 #define GET_SWAPCHAIN SAFE_GET(swapchain, m_swapchain)
 
 #ifdef TEST_MODE
+
 #define LOG_INFO(...) // Logging::info(__VA_ARGS__)
 #define LOG_WARN(...) // Logging::warn(__VA_ARGS__)
 #define LOG_DEBUG(...) // Logging::debug(__VA_ARGS__)
 #define LOG_ERROR(...) // Logging::error(__VA_ARGS__)
 #define LOG_FATAL(...) // Logging::fatal(__VA_ARGS__)
 #define LOG_TRACE(...) // Logging::trace(__VA_ARGS__)
+
 #else
+
 #define LOG_INFO(...) Logging::info(__VA_ARGS__)
 #define LOG_WARN(...) Logging::warn(__VA_ARGS__)
 #define LOG_DEBUG(...) Logging::debug(__VA_ARGS__)
 #define LOG_ERROR(...) Logging::error(__VA_ARGS__)
 #define LOG_FATAL(...) Logging::fatal(__VA_ARGS__)
 #define LOG_TRACE(...) Logging::trace(__VA_ARGS__)
+
 #endif

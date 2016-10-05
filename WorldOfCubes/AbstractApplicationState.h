@@ -19,7 +19,7 @@ public:
 
 	bool is_terminated() const noexcept { return m_terminated; }
 
-	std::shared_ptr<Scene> get_main_scene() { return m_main_scene; }
+	std::shared_ptr<Scene>& get_main_scene() { return m_main_scene; }
 
 protected:
 	virtual void on_initialized() = 0;
