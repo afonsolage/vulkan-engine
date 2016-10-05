@@ -1,6 +1,9 @@
 #pragma once
 
 #include "VulkanAPI.h"
+#include "MeshBuffer.h"
+#include "boost/optional.hpp"
+#include "FileSystem.h"
 
 class GraphicsSystem;
 class FileSystem;
@@ -8,22 +11,24 @@ class Context;
 
 struct ShaderInfo
 {
-	std::string name;
-	std::string entry;
+	std::string m_name;
+	std::string m_entry;
 
-	vk::ShaderStageFlagBits type;
-	vk::ShaderModule module;
+	vk::ShaderStageFlagBits m_type;
+	vk::ShaderModule m_module;
+
+	MeshBuffer m_buffer;
 
 	inline bool is_loaded() const noexcept
 	{
-		return (bool)module;
+		return (bool)m_module;
 	}
 
-	ShaderInfo(std::string&& name, vk::ShaderStageFlagBits&& type, std::string&& entry) : name(name), type(type), entry(entry) {}
-	ShaderInfo(const std::string& name, const vk::ShaderStageFlagBits& type, const std::string& entry) : name(name), type(type), entry(entry) {}
+	ShaderInfo(std::string&& name, vk::ShaderStageFlagBits&& type, std::string&& entry) : m_name(name), m_type(type), m_entry(entry) {}
+	ShaderInfo(const std::string& name, const vk::ShaderStageFlagBits& type, const std::string& entry) : m_name(name), m_type(type), m_entry(entry) {}
 
-	ShaderInfo(ShaderInfo&& other) : name(std::move(other.name)), type(other.type), entry(std::move(other.entry)) {}
-	ShaderInfo(const ShaderInfo& other) : name(other.name), type(other.type), entry(other.entry) {}
+	ShaderInfo(ShaderInfo&& other) : m_name(std::move(other.m_name)), m_type(other.m_type), m_entry(std::move(other.m_entry)) {}
+	ShaderInfo(const ShaderInfo& other) : m_name(other.m_name), m_type(other.m_type), m_entry(other.m_entry) {}
 };
 
 class ShaderSystem
@@ -58,6 +63,8 @@ private:
 
 	std::unordered_map<ShaderSystem::Shader, ShaderInfo> m_shader_module_map;
 
+	void parse_shader_input(ShaderInfo& shader, const ptree& input);
+
 	const std::string m_shader_folder = "assets/shader";
 	const std::string m_shader_info_file_path = "assets/shader/shader.info";
 	const std::string m_shader_extension = ".spv";
@@ -65,6 +72,11 @@ private:
 	const std::string m_shader_info_name = "name";
 	const std::string m_shader_info_type = "type";
 	const std::string m_shader_info_entry = "entry";
+
+	const std::string m_shader_info_input = "input";
+	const std::string m_shader_info_input_float = "float";
+	const std::string m_shader_info_input_uint = "uint";
+	const std::string m_shader_info_input_int = "int";
 
 	const std::unordered_map<std::string, vk::ShaderStageFlagBits> m_shader_type_map =
 	{

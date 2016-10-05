@@ -53,12 +53,9 @@ BOOST_AUTO_TEST_CASE(mesh_buffer_test)
 			1.0f, 1.0f,
 		};
 
-		BOOST_CHECK_EQUAL(buffer.set_buffer<float>(vertex_loc, vertex), 6);
-		BOOST_CHECK_EQUAL(buffer.set_buffer<uint32_t>(index_loc, indexes), 6);
-		BOOST_CHECK_EQUAL(buffer.set_buffer<float>(tex_coord_loc, tex_coords), 6);
-
-		const auto& final_buf = buffer.get_buffer();
-		final_buf.size();
+		BOOST_CHECK_EQUAL(buffer.set_buffer(vertex_loc, vertex), 6);
+		BOOST_CHECK_EQUAL(buffer.set_buffer(index_loc, indexes), 6);
+		BOOST_CHECK_EQUAL(buffer.set_buffer(tex_coord_loc, tex_coords), 6);
 	}
 }
 

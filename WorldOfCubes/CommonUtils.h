@@ -6,3 +6,19 @@
 #define VERSION_PATCH(version) ((uint32_t)(version) & 0xfff)
 
 uint32_t clamp(uint32_t min, uint32_t max, uint32_t val);
+
+inline void split(const std::string& str, char delim, std::vector<std::string>& result)
+{
+	std::stringstream ss;
+	ss.str(str);
+	std::string element;
+	while (std::getline(ss, element, delim))
+	{
+		if (element.empty())
+		{
+			continue;
+		}
+
+		result.push_back(element);
+	}
+}

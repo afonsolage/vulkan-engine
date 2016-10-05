@@ -1,12 +1,20 @@
 #include "stdafx.h"
 #include "MeshBuffer.h"
 
-
 MeshBuffer::MeshBuffer()
 	: m_vertex_count(0)
 	, m_per_vertex_size(0)
 	, m_initialized(false)
 {
+}
+
+MeshBuffer::MeshBuffer(const MeshBuffer & other)
+	: m_vertex_count(0)
+	, m_per_vertex_size(other.m_per_vertex_size)
+	, m_initialized(true)
+	, m_buffer_elements(other.m_buffer_elements)
+{
+
 }
 
 

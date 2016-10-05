@@ -41,7 +41,10 @@ private:
 		size_t m_offset;
 	};
 public:
+
 	MeshBuffer();
+	MeshBuffer(const MeshBuffer& other);
+
 	virtual ~MeshBuffer();
 
 	uint32_t add_buffer_element(MeshBufferElementFormat format, MeshBufferElementBits element_size, MeshBufferElementCount element_count);

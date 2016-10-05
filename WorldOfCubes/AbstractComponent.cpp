@@ -52,7 +52,7 @@ bool AbstractComponent::check_required_components()
 	{
 		if (!entity->is_component_attached(t_info))
 		{
-			LOG_FATAL("%s component requires component %s which isn't attached.", this_info->name(), t_info->name());
+			LOG_FATAL("%s component requires component %s which isn't attached.", this_info->m_name(), t_info->m_name());
 			return false;
 		}
 	}
