@@ -15,8 +15,6 @@ public:
 
 	std::weak_ptr<Entity> get_entity() const noexcept { return m_entity; }
 
-	virtual uint8_t get_priority() { return std::numeric_limits<uint8_t>::max(); }
-
 protected:
 	AbstractComponent();
 	AbstractComponent(const AbstractComponent& other) = delete;
@@ -26,7 +24,6 @@ protected:
 
 	virtual void on_attach() = 0;
 	virtual void on_detach() = 0;
-
 	
 	virtual std::vector<const type_info*> get_required_components();
 	virtual bool check_required_components();

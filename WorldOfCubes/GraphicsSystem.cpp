@@ -6,6 +6,8 @@
 #include "BaseGraphicsPipeline.h"
 #include "ShaderSystem.h"
 #include "ColoredMaterial.h"
+#include "Scene.h"
+#include "CameraComponent.h"
 
 GraphicsSystem::GraphicsSystem(std::shared_ptr<GameEngine>& engine)
 	: m_engine(engine)
@@ -51,4 +53,16 @@ uint32_t GraphicsSystem::get_window_height() const
 	auto engine = m_engine.lock();
 	assert(engine);
 	return engine->get_window_height();
+}
+
+void GraphicsSystem::render_scene(std::shared_ptr<Scene>& scene)
+{
+	auto camera = scene->get_camera().lock();
+
+	if (!camera)
+	{
+		LOG_WARN("There is no valid camera attached to scene. Skipping rendering.");
+		return;
+	}
+
 }

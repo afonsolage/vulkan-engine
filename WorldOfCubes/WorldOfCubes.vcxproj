@@ -231,7 +231,7 @@
     <ClInclude Include="Logging.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MeshComponent.h" />
-    <ClInclude Include="MeshObject.h" />
+    <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="NullApplicationState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderSystem.h" />
@@ -264,7 +264,8 @@
     <ClCompile Include="EntityTestModule.cpp" />
     <ClCompile Include="MainTestUnit.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
-    <ClCompile Include="MeshObject.cpp" />
+    <ClCompile Include="MeshBuffer.cpp" />
+    <ClCompile Include="MeshTestModule.cpp" />
     <ClCompile Include="NullApplicationState.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderSystem.cpp" />

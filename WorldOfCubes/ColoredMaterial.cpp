@@ -3,7 +3,6 @@
 #include "GraphicsSystem.h"
 #include "Context.h"
 #include "ShaderSystem.h"
-#include "MeshObject.h"
 #include "BaseGraphicsPipeline.h"
 
 ColoredMaterial::ColoredMaterial(std::shared_ptr<GraphicsSystem> graphics_system)
@@ -65,14 +64,14 @@ void ColoredMaterial::create_pipeline()
 	auto shader_stages = shader_system->get_shader_create_info({ ShaderSystem::Shader::eColoredVert, ShaderSystem::Shader::eColoredFrag });
 
 	//VERTEX INPUT STAGE
-	auto binding_description = MeshObject::get_vertex_input_binding_description();
-	auto attribute_description = MeshObject::get_vertex_input_attribute_description();
+	/*auto binding_description = MeshBuffer::get_vertex_input_binding_description();
+	auto attribute_description = MeshBuffer::get_vertex_input_attribute_description();*/
 
 	vk::PipelineVertexInputStateCreateInfo vertex_input_stage;
-	vertex_input_stage.vertexBindingDescriptionCount = 1;
+	/*vertex_input_stage.vertexBindingDescriptionCount = 1;
 	vertex_input_stage.pVertexBindingDescriptions = &binding_description;
 	vertex_input_stage.vertexAttributeDescriptionCount = attribute_description.size();
-	vertex_input_stage.pVertexAttributeDescriptions = attribute_description.data();
+	vertex_input_stage.pVertexAttributeDescriptions = attribute_description.data();*/
 
 	SAFE_GET(base_pipeline, graphics_system->get_base_pipeline());
 

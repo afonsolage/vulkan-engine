@@ -7,6 +7,7 @@ class Swapchain;
 class BaseGraphicsPipeline;
 class ShaderSystem;
 class type_info;
+class Scene;
 
 class GraphicsSystem : public std::enable_shared_from_this<GraphicsSystem>
 {
@@ -30,6 +31,7 @@ public:
 	uint32_t get_window_width() const;
 	uint32_t get_window_height() const;
 
+	void render_scene(std::shared_ptr<Scene>& scene);
 private:
 
 	//Owned objects

@@ -4,6 +4,7 @@
 
 //Forwarding declarations
 class GameEngine;
+class GraphicsSystem;
 
 class Application : public std::enable_shared_from_this<Application>
 {
@@ -25,6 +26,7 @@ public:
 
 private:
 	std::shared_ptr<GameEngine> m_engine;
+	std::weak_ptr<GraphicsSystem> m_graphic_system;
 
 	const std::string m_app_name = "World of Cubes";
 	const uint32_t m_app_version = MAKE_VERSION(0, 1, 0);

@@ -4,6 +4,7 @@
 
 class AbstractComponent;
 class GameEngine;
+class Scene;
 
 class Entity
 	: public std::enable_shared_from_this<Entity>
@@ -25,6 +26,8 @@ public:
 
 	virtual ~Entity();
 
+	void update();
+
 	template<typename T, typename... Args>
 	std::shared_ptr<T> attach(Args&&... args);
 	template<typename T>
@@ -32,15 +35,16 @@ public:
 	template<typename T>
 	std::weak_ptr<T> get_component();
 
-	std::vector<std::weak_ptr<AbstractComponent>> get_all_components();
-
 	std::weak_ptr<GameEngine> get_engine() { return m_engine; }
 
 	bool is_component_attached(const type_info* pinfo);
 
+	void set_scene(std::shared_ptr<Scene> scene) { m_scene = scene; }
+
 private:
 	std::vector<std::shared_ptr<AbstractComponent>> m_components;
 	std::weak_ptr<GameEngine> m_engine;
+	std::weak_ptr<Scene> m_scene;
 };
 
 template<typename T, typename... Args>

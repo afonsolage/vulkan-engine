@@ -1,14 +1,14 @@
 #pragma once
 
 #include "MathUtils.h"
-#include "TransformComponent.h"
+#include "AbstractComponent.h"
+
+class TransformComponent;
 
 class CameraComponent :
 	public AbstractComponent
 {
 public:
-	static const uint8_t PRIORITY = TransformComponent::PRIORITY+1;
-
 	CameraComponent();
 	virtual ~CameraComponent();
 
@@ -17,8 +17,6 @@ public:
 
 	glm::mat4 get_projection() const noexcept { return m_projection; }
 	glm::mat4 get_view();
-
-	virtual uint8_t get_priority() { return PRIORITY; }
 
 protected:
 	void on_attach() override;

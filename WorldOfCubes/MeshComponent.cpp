@@ -26,3 +26,4 @@ void MeshComponent::on_detach()
 {
 	LOG_TRACE("Mesh component detached.");
 }
+

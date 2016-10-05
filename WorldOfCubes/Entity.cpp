@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 #include "TransformComponent.h"
+#include "Scene.h"
 
 Entity::Entity(const private_ctor& ctor)
 	: m_engine(ctor.engine)
@@ -10,18 +11,19 @@ Entity::Entity(const private_ctor& ctor)
 
 Entity::~Entity()
 {
+	auto scene = m_scene.lock();
+	if (scene)
+	{
+		scene->set_dirty();
+	}
 }
 
-std::vector<std::weak_ptr<AbstractComponent>> Entity::get_all_components()
+void Entity::update()
 {
-	std::vector<std::weak_ptr<AbstractComponent>> result;
-
 	for (const auto& component : m_components)
 	{
-		result.emplace_back(component);
+		component->update();
 	}
-
-	return result;
 }
 
 bool Entity::is_component_attached(const type_info* pinfo)

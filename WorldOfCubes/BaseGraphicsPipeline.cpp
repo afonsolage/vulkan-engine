@@ -4,7 +4,6 @@
 #include "Swapchain.h"
 #include "Context.h"
 #include "ShaderSystem.h"
-#include "MeshObject.h"
 
 BaseGraphicsPipeline::BaseGraphicsPipeline(std::shared_ptr<GraphicsSystem>& graphics_system)
 	: m_graphics_system(graphics_system)

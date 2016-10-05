@@ -4,6 +4,7 @@
 
 class MeshComponent : public AbstractComponent
 {
+
 public:
 	MeshComponent();
 	virtual ~MeshComponent();
@@ -11,4 +12,6 @@ public:
 	void update() override;
 	void on_attach() override;
 	void on_detach() override;
+
+
 };

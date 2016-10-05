@@ -1,56 +1,25 @@
 #pragma once
 
-#include "AbstractComponent.h"
-
 class Entity;
-class AbstractComponent;
+class CameraComponent;
 
-class ComponentIndex
-{
-public:
-	std::type_index m_index;
-	uint8_t m_priority;
-
-	ComponentIndex() = delete;
-
-	ComponentIndex(const std::shared_ptr<AbstractComponent>& component)
-		: m_index(typeid(*component))
-		, m_priority(component->get_priority())
-	{
-	}
-
-	bool operator<(const ComponentIndex& other) const
-	{
-		return (m_priority == other.m_priority) ? m_index < other.m_index : m_priority < other.m_priority;
-	}
-
-	bool operator==(const ComponentIndex& other) const
-	{
-		return m_index == other.m_index && m_priority == other.m_priority;
-	}
-
-	bool operator==(const std::type_index& other) const
-	{
-		return m_index == other;
-	}
-};
-
-using ComponentList = std::vector<std::weak_ptr<AbstractComponent>>;
-using ComponentMap = std::map<ComponentIndex, ComponentList>;
-using ComponentMapIterator = ComponentMap::iterator;
-
-class Scene
+class Scene : public std::enable_shared_from_this<Scene>
 {
 public:
 	Scene();
 	virtual ~Scene();
 
 	void add(std::shared_ptr<Entity> entity);
+	void update();
 
+	void set_dirty() { m_dirty = true; }
+
+	std::weak_ptr<CameraComponent> get_camera() { return m_camera; }
 protected:
-	void add(const std::shared_ptr<AbstractComponent>& component);
-	ComponentMapIterator add_component_list(const std::shared_ptr<AbstractComponent>& component);
+	void remove_dead_entities();
 
+	std::weak_ptr<CameraComponent> m_camera;
+	std::vector<std::weak_ptr<Entity>> m_entities;
 
-	ComponentMap m_component_map;
+	bool m_dirty;
 };

@@ -9,7 +9,6 @@ class TransformComponent
 	, public std::enable_shared_from_this<TransformComponent>
 {
 public:
-	static const uint8_t PRIORITY = 100;
 
 	TransformComponent(bool is_camera_transform = false);
 	virtual ~TransformComponent();
@@ -22,8 +21,6 @@ public:
 	size_t get_child_count() { return m_children.size(); }
 
 	glm::mat4 get_model();
-
-	virtual uint8_t get_priority() { return PRIORITY; }
 
 	void add(std::shared_ptr<TransformComponent>& child);
 

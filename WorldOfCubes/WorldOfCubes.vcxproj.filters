@@ -67,6 +67,9 @@
     <Filter Include="Engine\Scene\Entity\Component">
       <UniqueIdentifier>{8487d5ad-2c4d-4ca1-9ad1-3e25a9fb449c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test\Mesh">
+      <UniqueIdentifier>{aaab989c-f79f-4da9-93e0-e83da1a4d9c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -95,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="FileSystem.h">
       <Filter>Engine\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshObject.h">
-      <Filter>Engine\Object</Filter>
     </ClInclude>
     <ClInclude Include="MathUtils.h">
       <Filter>Common</Filter>
@@ -159,6 +159,9 @@
     <ClInclude Include="Scene.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="MeshBuffer.h">
+      <Filter>Engine\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -187,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="FileSystem.cpp">
       <Filter>Engine\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshObject.cpp">
-      <Filter>Engine\Object</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Main</Filter>
@@ -253,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshBuffer.cpp">
+      <Filter>Engine\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshTestModule.cpp">
+      <Filter>Test\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

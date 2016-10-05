@@ -3,6 +3,7 @@
 class Application;
 class CameraComponent;
 class GameEngine;
+class Scene;
 
 class AbstractApplicationState
 {
@@ -18,10 +19,14 @@ public:
 
 	bool is_terminated() const noexcept { return m_terminated; }
 
+	std::shared_ptr<Scene> get_main_scene() { return m_main_scene; }
+
 protected:
 	virtual void on_initialized() = 0;
 	virtual void on_updated(float delta) = 0;
 	virtual void on_terminated() = 0;
+
+	std::shared_ptr<Scene> m_main_scene;
 
 	std::weak_ptr<Application> m_application;
 	std::weak_ptr<GameEngine> m_engine;

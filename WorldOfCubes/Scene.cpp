@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "Entity.h"
-#include "AbstractComponent.h"
+#include "CameraComponent.h"
 
 Scene::Scene()
+	: m_dirty(false)
 {
 
 }
@@ -16,44 +17,43 @@ Scene::~Scene()
 
 void Scene::add(std::shared_ptr<Entity> entity)
 {
-	for (const auto& component : entity->get_all_components())
+	m_entities.emplace_back(entity);
+	entity->set_scene(shared_from_this());
+
+	auto camera = entity->get_component<CameraComponent>();
+
+	if (!camera.expired())
 	{
-		add(component.lock());
+		m_camera = std::move(camera);
+	}
+	else
+	{
+		LOG_WARN("There is already a camera component on this scene. Skipping the new one.");
 	}
 }
 
-void Scene::add(const std::shared_ptr<AbstractComponent>& component)
+void Scene::update()
 {
-	if (!component)
+	remove_dead_entities();
+
+	std::shared_ptr<Entity> s_ptr;
+
+	for (const auto& entity : m_entities)
 	{
-		LOG_ERROR("Trying to add a null component on scene!");
-		return;
+		s_ptr.swap(entity.lock());
+		if (s_ptr)
+		{
+			s_ptr->update();
+		}
 	}
+}
 
-	auto type_index = std::type_index(typeid(*component));
-
-	auto it = std::find_if(begin(m_component_map), end(m_component_map), [&type_index](auto const& pair)
+void Scene::remove_dead_entities()
+{
+	auto it = std::find_if(begin(m_entities), end(m_entities), [](const auto& entity)
 	{
-		return pair.first == type_index;
+		return entity.expired();
 	});
 
-	if (it == m_component_map.end())
-	{
-		it = add_component_list(component);
-	}
-
-	it->second.emplace_back(component);
-}
-
-ComponentMapIterator Scene::add_component_list(const std::shared_ptr<AbstractComponent>& component)
-{
-	auto result = m_component_map.insert(std::pair<ComponentIndex, ComponentList>(ComponentIndex(component), ComponentList()));
-
-	if (!result.second)
-	{
-		LOG_FATAL("Failed to inser new component list on scene!");
-		throw std::runtime_error("Failed to inser new component list on scene");
-	}
-
-	return result.first;
+	m_entities.erase(it);
 }
