@@ -15,13 +15,19 @@ BaseGraphicsPipeline::BaseGraphicsPipeline(std::shared_ptr<GraphicsSystem>& grap
 
 BaseGraphicsPipeline::~BaseGraphicsPipeline()
 {
-	GET_CONTEXT;
+	auto context = m_context.lock();
+	if (context)
+	{
+		context->m_device.destroyImageView(m_depth_image_view);
+		context->m_device.destroyImage(m_depth_image);
+		context->m_device.freeMemory(m_depth_memory);
 
-	context->m_device.destroyImageView(m_depth_image_view);
-	context->m_device.destroyImage(m_depth_image);
-	context->m_device.freeMemory(m_depth_memory);
-
-	context->m_device.destroyRenderPass(m_render_pass);
+		context->m_device.destroyRenderPass(m_render_pass);
+	}
+	else
+	{
+		LOG_FATAL("Unable to destroy BaseGraphicsPipeline: Context is null.");
+	}
 }
 
 void BaseGraphicsPipeline::init()

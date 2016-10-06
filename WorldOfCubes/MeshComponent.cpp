@@ -31,19 +31,17 @@ void MeshComponent::set_material(std::shared_ptr<const AbstractMaterial>& materi
 {
 	m_material = material;
 
-	m_mesh_buffer = material->create_mesh_buffer();
+	m_mesh_buffer = std::make_unique<MeshBuffer>(material->create_mesh_buffer());
 }
 
 const std::vector<char>& MeshComponent::get_buffer() const
 {
-	if (!m_mesh_buffer.is_initialized())
+	if (!m_mesh_buffer->is_initialized())
 	{
 		LOG_FATAL("Current mesh component has no mesh buffer.");
 		throw std::invalid_argument("Invalid mesh buffer.");
 	}
-	else
-	{
-		m_mesh_buffer.get();
-	}
+	
+	return m_mesh_buffer->get();
 }
 

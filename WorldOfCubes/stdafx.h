@@ -32,7 +32,7 @@ using namespace std::chrono_literals;
 
 #define SAFE_GET(v,m) auto v = m.lock(); \
 						if (v == nullptr) \
-						std::runtime_error("Invalid "#m"!")
+						 throw std::runtime_error("Invalid "#m"!")
 
 #define GET_CONTEXT SAFE_GET(context, m_context)
 #define GET_SWAPCHAIN SAFE_GET(swapchain, m_swapchain)

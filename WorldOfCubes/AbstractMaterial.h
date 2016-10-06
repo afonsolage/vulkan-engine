@@ -19,6 +19,8 @@ public:
 	MeshBuffer create_mesh_buffer() const;
 	vk::Pipeline get_pipeline() const { return m_base_pipeline; }
 
+	virtual void init();
+
 protected:
 	void create_descriptor_set_layout();
 	void create_pipeline_layout();

@@ -20,5 +20,5 @@ public:
 	const std::vector<char>& get_buffer() const;
 private:
 	std::weak_ptr<const AbstractMaterial> m_material;
-	MeshBuffer m_mesh_buffer;
+	std::unique_ptr<MeshBuffer> m_mesh_buffer;
 };

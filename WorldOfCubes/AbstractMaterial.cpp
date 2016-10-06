@@ -10,21 +10,24 @@ AbstractMaterial::AbstractMaterial(std::shared_ptr<GraphicsSystem> graphics_syst
 	, m_context(graphics_system->get_context())
 	, m_shader_system(graphics_system->get_shader_system())
 {
-	create_descriptor_set_layout();
-	create_pipeline_layout();
-	create_pipeline();
 }
 
 
 AbstractMaterial::~AbstractMaterial()
 {
-	GET_CONTEXT;
+	auto context = m_context.lock();
+	if (context)
+	{
+		context->m_device.destroyDescriptorSetLayout(m_descriptor_set_layout);
+		context->m_device.destroyPipelineLayout(m_pipeline_layout);
+		context->m_device.destroyPipeline(m_base_pipeline);
 
-	context->m_device.destroyDescriptorSetLayout(m_descriptor_set_layout);
-	context->m_device.destroyPipelineLayout(m_pipeline_layout);
-	context->m_device.destroyPipeline(m_base_pipeline);
-
-	LOG_DEBUG("Abstract Material destroyed.");
+		LOG_DEBUG("Abstract Material destroyed.");
+	}
+	else
+	{
+		LOG_FATAL("Unable to destroy AbstractMaterial: Context is null.");
+	}
 }
 
 MeshBuffer AbstractMaterial::create_mesh_buffer() const
@@ -37,7 +40,14 @@ MeshBuffer AbstractMaterial::create_mesh_buffer() const
 		throw std::runtime_error("Can't create a mesh buffer on current shader.");
 	}
 
-	return MeshBuffer(vertex_shader->m_buffer);
+	return vertex_shader->m_buffer;
+}
+
+void AbstractMaterial::init()
+{
+	create_descriptor_set_layout();
+	create_pipeline_layout();
+	create_pipeline();
 }
 
 

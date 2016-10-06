@@ -13,16 +13,22 @@ ShaderSystem::ShaderSystem(std::shared_ptr<GraphicsSystem>& graphics_system)
 
 ShaderSystem::~ShaderSystem()
 {
-	GET_CONTEXT;
-	for (const auto& shader : m_shader_module_map)
+	auto context = m_context.lock();
+	if (context)
 	{
-		if (shader.second && shader.second->is_loaded())
+		for (const auto& shader : m_shader_module_map)
 		{
-			context->m_device.destroyShaderModule(shader.second->m_module);
+			if (shader.second && shader.second->is_loaded())
+			{
+				context->m_device.destroyShaderModule(shader.second->m_module);
+			}
 		}
+		LOG_DEBUG("Shader manager destroyed.");
 	}
-
-	LOG_DEBUG("Shader manager destroyed.");
+	else
+	{
+		LOG_FATAL("Unable to destroy ShaderSystem: Context is null.");
+	}
 }
 
 void ShaderSystem::init()
