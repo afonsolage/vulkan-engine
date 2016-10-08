@@ -58,7 +58,7 @@ void CameraComponent::on_attach()
 	else if (!transform->is_camera_transform())
 	{
 		LOG_FATAL("Transform isn't a camera transform!");
-		throw std::invalid_argument("Transform must be a camera transform.");
+		throw std::invalid_argument("Transform must be a camera transform! Pass TRUE on TransformComponent constructor.");
 	}
 }
 

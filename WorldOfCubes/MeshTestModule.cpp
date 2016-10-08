@@ -5,6 +5,10 @@
 #include "MeshBuffer.h"
 #include "GraphicsSystem.h"
 #include "ShaderSystem.h"
+#include "TransformComponent.h"
+#include "MeshComponent.h"
+#include "Entity.h"
+#include "ColoredMaterial.h"
 
 BOOST_FIXTURE_TEST_SUITE(mesh_test_suite, BasicAppFixture)
 
@@ -13,56 +17,57 @@ BOOST_AUTO_TEST_CASE(mesh_buffer_test)
 	SAFE_GET(engine, m_engine);
 	SAFE_GET(graphics_system, engine->get_graphics_sytem());
 	SAFE_GET(shader_system, graphics_system->get_shader_system());
-	
+
 
 	//Test normal use case of buffer.
 	{
-		MeshBuffer buffer;
+		auto material = graphics_system->get_material<ColoredMaterial>();
+		auto entity = engine->create_entity();
 
-		auto vertex_loc = buffer.add_buffer_element(MeshBufferElementFormat::eFloat, MeshBufferElementBits::e32, MeshBufferElementCount::e3);
-		auto index_loc = buffer.add_buffer_element(MeshBufferElementFormat::eUnsignedInt, MeshBufferElementBits::e32, MeshBufferElementCount::e1);
-		auto tex_coord_loc = buffer.add_buffer_element(MeshBufferElementFormat::eFloat, MeshBufferElementBits::e32, MeshBufferElementCount::e2);
+		auto transform = entity->attach<TransformComponent>();
+		auto mesh = entity->attach<MeshComponent>();
 
-		BOOST_CHECK_NE(vertex_loc, std::numeric_limits<uint32_t>::max());
-		BOOST_CHECK_NE(index_loc, std::numeric_limits<uint32_t>::max());
-		BOOST_CHECK_NE(tex_coord_loc, std::numeric_limits<uint32_t>::max());
+		mesh->set_material(material);
 
-		buffer.initialize();
-
-		std::vector<float> vertex =
+		std::vector<float> position =
 		{
-			0.0f, 0.1f, 0.2f,
-			1.0f, 1.1f, 1.2f,
-			2.0f, 2.1f, 2.2f,
-
-			3.0f, 3.1f, 3.2f,
-			4.0f, 4.1f, 4.2f,
-			5.0f, 5.1f, 5.2f,
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.0f, 0.5f, 0.5f,
 		};
 
-		std::vector<uint32_t> indexes =
+		auto pos_count = mesh->set_buffer(ColoredMaterial::POSITION_LOCATION, position);
+
+		std::vector<float> color =
 		{
-			1, 
-			2, 
-			3,
-			4,
-			5, 
-			6,
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.0f, 0.5f, 0.5f,
 		};
 
-		std::vector<float> tex_coords =
+		auto color_count = mesh->set_buffer(ColoredMaterial::COLOR_LOCATION, color);
+
+		std::vector<uint16_t> indexes =
 		{
-			0.0f, 0.0f,
-			0.5f, 0.0f,
-			0.0f, 1.0f,
-			1.0f, 0.0f,
-			0.0f, 0.5f,
-			1.0f, 1.0f,
+			1, 2, 3
 		};
 
-		BOOST_CHECK_EQUAL(buffer.set_buffer(vertex_loc, vertex), 6);
-		BOOST_CHECK_EQUAL(buffer.set_buffer(index_loc, indexes), 6);
-		BOOST_CHECK_EQUAL(buffer.set_buffer(tex_coord_loc, tex_coords), 6);
+		mesh->set_indexes(indexes);
+
+		BOOST_CHECK_EQUAL(pos_count, color_count);
+		BOOST_CHECK_EQUAL(pos_count, indexes.size());
+
+		std::vector<char> intervealed;
+
+		convert_buffer(std::vector<float>{
+			-0.5f, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,
+				0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f,
+				0.0f, 0.5f, 0.5f, 0.0f, 0.5f, 0.5f,
+		}, intervealed);
+
+		auto buffer = mesh->get_buffer();
+
+		BOOST_CHECK_EQUAL_COLLECTIONS(begin(buffer), end(buffer), begin(intervealed), end(intervealed));
 	}
 }
 

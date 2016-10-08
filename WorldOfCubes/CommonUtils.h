@@ -22,3 +22,14 @@ inline void split(const std::string& str, char delim, std::vector<std::string>& 
 		result.push_back(element);
 	}
 }
+
+template<typename T1, typename T2>
+inline void convert_buffer(const std::vector<T1>& from, std::vector<T2>& to)
+{
+	auto bytes_to_read = sizeof(T1) * from.size();
+	auto dest_size = bytes_to_read / sizeof(T2);
+
+	to.resize(dest_size);
+
+	memcpy(&to[0], &from[0], bytes_to_read);
+}

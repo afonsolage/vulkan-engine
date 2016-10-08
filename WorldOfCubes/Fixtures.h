@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "TestApplicationState.h"
 #include "GameEngine.h"
+#include "WorldApplicationState.h"
 
 struct BasicAppFixture
 {
@@ -12,6 +13,12 @@ struct BasicAppFixture
 		{
 			m_application = std::make_shared<Application>();
 			m_application->init();
+
+			m_application->change_state<WorldApplicationState>();
+
+		}
+		if (m_engine.expired())
+		{
 			m_engine = m_application->get_engine();
 		}
 	}

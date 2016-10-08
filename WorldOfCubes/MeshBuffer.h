@@ -52,8 +52,11 @@ public:
 	void initialize();
 
 	template<typename T>
-	uint32_t set_buffer(uint32_t location, const std::vector<T>& buffer);
+	uint32_t set(uint32_t location, const std::vector<T>& buffer);
 
+	void set_indexes(const std::vector<uint16_t>& buffer);
+
+	const std::vector<uint16_t>& get_indexes() const { return m_indexes; }
 	const std::vector<char>& get() const { return m_buffer; }
 	uint32_t get_stride() const noexcept { return m_per_vertex_size; }
 
@@ -68,7 +71,9 @@ private:
 
 	bool m_initialized;
 	std::vector<MeshBufferElement> m_buffer_elements;
+
 	std::vector<char> m_buffer;
+	std::vector<uint16_t> m_indexes;
 
 	size_t m_per_vertex_size;
 #ifndef NDEBUG
@@ -77,7 +82,7 @@ private:
 };
 
 template<typename T>
-uint32_t MeshBuffer::set_buffer(uint32_t location, const std::vector<T>& buffer)
+uint32_t MeshBuffer::set(uint32_t location, const std::vector<T>& buffer)
 {
 	if (!m_initialized)
 	{

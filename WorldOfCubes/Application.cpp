@@ -20,13 +20,15 @@ Application::~Application()
 
 void Application::init()
 {
-	try 
+	try
 	{
 		m_engine = std::make_shared<GameEngine>(m_app_name, m_app_version);
 		m_engine->init();
 
 		m_graphic_system = m_engine->get_graphics_sytem();
 		LOG_INFO("Game Engine initialization sucessfull!");
+
+		change_state<WorldApplicationState>();
 	}
 	catch (std::exception e)
 	{
@@ -38,7 +40,7 @@ void Application::run()
 {
 	LOG_INFO("Starting main loop!");
 
-	while(m_engine->is_running())
+	while (m_engine->is_running())
 	{
 		m_engine->tick();
 

@@ -30,8 +30,8 @@ BOOST_AUTO_TEST_CASE(entity_test)
 	auto uid = entity->get_uid();
 
 	//Test UID
-	BOOST_CHECK(entity->get_uid() != 0);
-	BOOST_CHECK(entity->get_uid() != entity2->get_uid());
+	BOOST_CHECK_NE(entity->get_uid(), 0);
+	BOOST_CHECK_NE(entity->get_uid(), entity2->get_uid());
 
 	//Operator check
 	BOOST_CHECK(*entity != *entity2);

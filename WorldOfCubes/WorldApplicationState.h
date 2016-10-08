@@ -18,7 +18,9 @@ private:
 	virtual void on_updated(float delta) override;
 	virtual void on_terminated() override;
 
+	void setup_camera();
+	void create_basic_triangle();
+
 	std::shared_ptr<CameraComponent> m_main_camera;
 	std::weak_ptr<GraphicsSystem> m_graphics_system;
 };
-

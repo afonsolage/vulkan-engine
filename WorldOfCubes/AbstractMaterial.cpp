@@ -50,24 +50,6 @@ void AbstractMaterial::init()
 	create_pipeline();
 }
 
-
-void AbstractMaterial::create_descriptor_set_layout()
-{
-	GET_CONTEXT;
-
-	vk::DescriptorSetLayoutBinding ds_ubo_layout_binding;
-	ds_ubo_layout_binding.binding = 0;
-	ds_ubo_layout_binding.descriptorCount = 1;
-	ds_ubo_layout_binding.descriptorType = vk::DescriptorType::eUniformBuffer;
-	ds_ubo_layout_binding.stageFlags = vk::ShaderStageFlagBits::eVertex;
-
-	vk::DescriptorSetLayoutCreateInfo ds_layout_create_info;
-	ds_layout_create_info.bindingCount = 1;
-	ds_layout_create_info.pBindings = &ds_ubo_layout_binding;
-
-	m_descriptor_set_layout = context->m_device.createDescriptorSetLayout(ds_layout_create_info);
-}
-
 void AbstractMaterial::create_pipeline_layout()
 {
 	vk::PipelineLayoutCreateInfo create_info;

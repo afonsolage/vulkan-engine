@@ -27,7 +27,7 @@ public:
 	std::weak_ptr<BaseGraphicsPipeline> get_base_pipeline() { return m_base_pipeline; }
 
 	template<typename T>
-	std::weak_ptr<const T> get_material();
+	std::shared_ptr<const AbstractMaterial>& get_material();
 
 	uint32_t get_window_width() const;
 	uint32_t get_window_height() const;
@@ -48,12 +48,17 @@ private:
 };
 
 template<typename T>
-inline std::weak_ptr<const T> GraphicsSystem::get_material()
+inline std::shared_ptr<const AbstractMaterial>& GraphicsSystem::get_material()
 {
 	auto it = m_material_map.find(&typeid(T));
 
 	if (it == m_material_map.end())
-		return std::weak_ptr<const T>();
+	{
+		LOG_FATAL("Failed to find material: %s.", typeid(T).name());
+		throw std::runtime_error("No such material!");
+	}
 	else
-		return std::static_pointer_cast<const T>(it->second);
+	{
+		return it->second;
+	}
 }

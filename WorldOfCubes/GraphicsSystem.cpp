@@ -8,6 +8,7 @@
 #include "ColoredMaterial.h"
 #include "Scene.h"
 #include "CameraComponent.h"
+#include "MeshComponent.h"
 
 GraphicsSystem::GraphicsSystem(std::shared_ptr<GameEngine>& engine)
 	: m_engine(engine)
@@ -67,4 +68,13 @@ void GraphicsSystem::render_scene(std::shared_ptr<Scene>& scene)
 		return;
 	}
 
+	auto view_mat = camera->get_view();
+	auto proj_mat = camera->get_projection();
+
+	auto meshes = scene->get_component_list<MeshComponent>();
+
+	for (const auto& mesh : meshes)
+	{
+		
+	}
 }

@@ -2,17 +2,21 @@
 #include "MeshBuffer.h"
 
 MeshBuffer::MeshBuffer()
-	: m_vertex_count(0)
-	, m_per_vertex_size(0)
+	: m_per_vertex_size(0)
 	, m_initialized(false)
+#ifndef NDEBUG
+	, m_vertex_count(0)
+#endif
 {
 }
 
 MeshBuffer::MeshBuffer(const MeshBuffer & other)
-	: m_vertex_count(0)
+	: m_initialized(true)
 	, m_per_vertex_size(other.m_per_vertex_size)
-	, m_initialized(true)
 	, m_buffer_elements(other.m_buffer_elements)
+#ifndef NDEBUG
+	, m_vertex_count(0)
+#endif
 {
 
 }
@@ -47,6 +51,18 @@ void MeshBuffer::initialize()
 	}
 }
 
+void MeshBuffer::set_indexes(const std::vector<uint16_t>& buffer)
+{
+#ifndef NDEBUG
+	if (m_vertex_count > 0 && buffer.size() != m_vertex_count)
+	{
+		LOG_DEBUG("Vertex count missmatch between set buffer and set indexes. Last vertex count: %d, current vertex count: %d.", m_vertex_count, buffer.size());
+	}
+#endif
+	m_indexes.resize(buffer.size());
+	memcpy(&m_indexes[0], &buffer[0], buffer.size() * sizeof(uint16_t));
+}
+
 const MeshBuffer::MeshBufferElement& MeshBuffer::get_element(uint32_t location)
 {
 	auto it = std::find_if(std::begin(m_buffer_elements), std::end(m_buffer_elements), [&location](const auto& element)
@@ -72,4 +88,5 @@ MeshBuffer::MeshBufferElement::MeshBufferElement(uint32_t location, MeshBufferEl
 	, m_element_count(element_count)
 	, m_element_size((sizeof(char) * ((size_t)m_element_bits) * ((size_t)element_count)))
 {
+
 }

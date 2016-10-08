@@ -21,13 +21,6 @@ struct UIDHasher
 	}
 };
 
-inline void UniqueIdentified::generate_uid(const type_info& t_info)
-{
-	auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count();
-	m_uid = now & std::numeric_limits<uint32_t>::max();
-	m_uid |= (std::rand() % std::numeric_limits<uint32_t>::max()) << sizeof(uint32_t);
-}
-
 //Component - Component operators
 inline bool operator==(const UniqueIdentified& lhs, const UniqueIdentified& rhs) { return lhs.get_uid() == rhs.get_uid(); }
 inline bool operator!=(const UniqueIdentified& lhs, const UniqueIdentified& rhs) { return lhs.get_uid() != rhs.get_uid(); }

@@ -142,7 +142,8 @@
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)Test\$(TargetName)$(TargetExt)</Command>
+      <Command>
+      </Command>
       <Message>
       </Message>
     </PostBuildEvent>
@@ -167,7 +168,8 @@
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)Test\$(TargetName)$(TargetExt)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -245,6 +247,7 @@
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="NullApplicationState.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderSystem.h" />
     <ClInclude Include="stdafx.h" />
@@ -253,6 +256,7 @@
     <ClInclude Include="TestComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UniformBufferObject.h" />
     <ClInclude Include="UniqueIdentified.h" />
     <ClInclude Include="VulkanAPI.h" />
     <ClInclude Include="WindowSystem.h" />
@@ -280,6 +284,7 @@
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="MeshTestModule.cpp" />
     <ClCompile Include="NullApplicationState.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderSystem.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -296,6 +301,8 @@
     <ClCompile Include="TestComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UniformBufferObject.cpp" />
+    <ClCompile Include="UniqueIdentified.cpp" />
     <ClCompile Include="VulkanAPI.cpp" />
     <ClCompile Include="WindowSystem.cpp" />
     <ClCompile Include="WorldApplicationState.cpp" />

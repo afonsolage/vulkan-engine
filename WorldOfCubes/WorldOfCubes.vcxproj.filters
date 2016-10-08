@@ -165,6 +165,10 @@
     <ClInclude Include="AbstractMaterial.h">
       <Filter>Engine\Graphics\Material</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBufferObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -266,6 +270,13 @@
     <ClCompile Include="AbstractMaterial.cpp">
       <Filter>Engine\Graphics\Material</Filter>
     </ClCompile>
+    <ClCompile Include="UniqueIdentified.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformBufferObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shader\Colored.frag">

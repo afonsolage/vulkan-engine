@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Scene.h"
-#include "Entity.h"
 #include "CameraComponent.h"
 
 Scene::Scene()
@@ -22,13 +21,18 @@ void Scene::add(std::shared_ptr<Entity> entity)
 
 	auto camera = entity->get_component<CameraComponent>();
 
+	//Check if the attached entity have a camera component.
 	if (!camera.expired())
 	{
-		m_camera = std::move(camera);
-	}
-	else
-	{
-		LOG_WARN("There is already a camera component on this scene. Skipping the new one.");
+		//If it does and there is no current camera on this scene.
+		if (m_camera.expired())
+		{
+			m_camera = std::move(camera);
+		}
+		else
+		{
+			LOG_WARN("There is already a camera component on this scene. Skipping the new one.");
+		}
 	}
 }
 
@@ -38,10 +42,9 @@ void Scene::update()
 
 	for (const auto& entity : m_entities)
 	{
-		auto s_ptr = entity.lock();
-		if (s_ptr)
+		if (entity)
 		{
-			s_ptr->update();
+			entity->update();
 		}
 	}
 }
@@ -50,7 +53,7 @@ void Scene::remove_dead_entities()
 {
 	auto it = std::find_if(begin(m_entities), end(m_entities), [](const auto& entity)
 	{
-		return entity.expired();
+		return entity;
 	});
 
 	m_entities.erase(it);

@@ -7,6 +7,8 @@
 class GraphicsSystem;
 class Context;
 class ShaderSystem;
+class MeshComponent;
+class CameraComponent;
 
 struct ShaderInfo;
 
@@ -21,10 +23,16 @@ public:
 
 	virtual void init();
 
+	virtual void set_view(glm::mat4& view) {};
+	virtual void set_projection(glm::mat4& view) {};
+
+	virtual void pre_render(std::shared_ptr<CameraComponent> component) {};
+	virtual void render(std::shared_ptr<MeshComponent> component) {};
+
 protected:
-	void create_descriptor_set_layout();
-	void create_pipeline_layout();
-	void create_pipeline();
+	virtual void create_descriptor_set_layout() = 0;
+	virtual void create_pipeline_layout();
+	virtual void create_pipeline();
 
 	vk::DescriptorSetLayout m_descriptor_set_layout;
 	vk::PipelineLayout m_pipeline_layout;
