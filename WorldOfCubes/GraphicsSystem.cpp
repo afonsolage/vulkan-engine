@@ -68,13 +68,26 @@ void GraphicsSystem::render_scene(std::shared_ptr<Scene>& scene)
 		return;
 	}
 
-	auto view_mat = camera->get_view();
-	auto proj_mat = camera->get_projection();
-
 	auto meshes = scene->get_component_list<MeshComponent>();
+
+	std::shared_ptr<AbstractMaterial> current_material;
 
 	for (const auto& mesh : meshes)
 	{
-		
+		auto material = mesh->get_material().lock();
+
+		if (!material)
+		{
+			LOG_WARN("There is no valid material attached to this mesh.");
+			continue;
+		}
+
+		if (!current_material || current_material != material)
+		{
+			current_material.swap(material);
+			current_material->pre_render(camera);
+		}
+
+		current_material->render(mesh->get_entity().lock());
 	}
 }

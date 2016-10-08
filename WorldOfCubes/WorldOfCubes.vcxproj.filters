@@ -70,6 +70,9 @@
     <Filter Include="Test\Mesh">
       <UniqueIdentifier>{aaab989c-f79f-4da9-93e0-e83da1a4d9c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Object\UniformBufferObject">
+      <UniqueIdentifier>{62606e61-8272-4e0a-be04-40246586777e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -168,7 +171,9 @@
     <ClInclude Include="Random.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="UniformBufferObject.h" />
+    <ClInclude Include="MVPUniformBuffer.h">
+      <Filter>Engine\Object\UniformBufferObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -276,7 +281,9 @@
     <ClCompile Include="Random.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="UniformBufferObject.cpp" />
+    <ClCompile Include="MVPUniformBuffer.cpp">
+      <Filter>Engine\Object\UniformBufferObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\assets\shader\Colored.frag">

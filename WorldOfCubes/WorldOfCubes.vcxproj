@@ -256,7 +256,7 @@
     <ClInclude Include="TestComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="UniformBufferObject.h" />
+    <ClInclude Include="MVPUniformBuffer.h" />
     <ClInclude Include="UniqueIdentified.h" />
     <ClInclude Include="VulkanAPI.h" />
     <ClInclude Include="WindowSystem.h" />
@@ -301,7 +301,7 @@
     <ClCompile Include="TestComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="UniformBufferObject.cpp" />
+    <ClCompile Include="MVPUniformBuffer.cpp" />
     <ClCompile Include="UniqueIdentified.cpp" />
     <ClCompile Include="VulkanAPI.cpp" />
     <ClCompile Include="WindowSystem.cpp" />

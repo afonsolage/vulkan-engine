@@ -1,6 +1,5 @@
 #pragma once
 
-#include "VulkanAPI.h"
 #include <glm/glm.hpp>
 
 enum class MeshBufferElementFormat

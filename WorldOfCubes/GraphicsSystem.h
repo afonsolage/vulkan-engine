@@ -27,7 +27,7 @@ public:
 	std::weak_ptr<BaseGraphicsPipeline> get_base_pipeline() { return m_base_pipeline; }
 
 	template<typename T>
-	std::shared_ptr<const AbstractMaterial>& get_material();
+	std::shared_ptr<AbstractMaterial>& get_material();
 
 	uint32_t get_window_width() const;
 	uint32_t get_window_height() const;
@@ -48,7 +48,7 @@ private:
 };
 
 template<typename T>
-inline std::shared_ptr<const AbstractMaterial>& GraphicsSystem::get_material()
+inline std::shared_ptr<AbstractMaterial>& GraphicsSystem::get_material()
 {
 	auto it = m_material_map.find(&typeid(T));
 

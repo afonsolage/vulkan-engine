@@ -7,7 +7,7 @@
 class GraphicsSystem;
 class Context;
 class ShaderSystem;
-class MeshComponent;
+class Entity;
 class CameraComponent;
 
 struct ShaderInfo;
@@ -26,8 +26,8 @@ public:
 	virtual void set_view(glm::mat4& view) {};
 	virtual void set_projection(glm::mat4& view) {};
 
-	virtual void pre_render(std::shared_ptr<CameraComponent> component) {};
-	virtual void render(std::shared_ptr<MeshComponent> component) {};
+	virtual void pre_render(std::shared_ptr<CameraComponent>& component) {};
+	virtual void render(vk::CommandBuffer& cmd_buffer, std::shared_ptr<Entity>& component) {};
 
 protected:
 	virtual void create_descriptor_set_layout() = 0;
